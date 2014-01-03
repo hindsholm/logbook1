@@ -2,6 +2,7 @@
      gm-map-id="'myMap'" 
      gm-center="center" 
      gm-zoom="zoom"
+     gm-bounds="bounds"
      gm-map-options="options.map"
      style="width:500px;height:500px;">
     <gm-polylines gm-objects="tracks"
@@ -11,4 +12,5 @@
     </gm-polylines>
 </div>
 
-{{tracks[0].path.length}} trackpoints
+{{tracks[0].path.length}} trackpoints <br/>
+Bounds: {{bounds.toString()}}

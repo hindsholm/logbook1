@@ -7,9 +7,9 @@ angular.module('logbook.controllers', []).
         'use strict';
 
         function parseTrackSegment(trkseg) {
-            var segment = [], lastlng = 200, lastlat = 100, lng, lat, i,
-                trkpts = trkseg.getElementsByTagName("trkpt"),
-                deltaSquared = 0.0001 * 0.0001;
+            var i, trkpts = trkseg.getElementsByTagName("trkpt"),
+                lat, lng, lastlat = 100, lastlng = 200,
+                deltaSquared = 0.0001 * 0.0001, segment = [];
 
             for (i = 0; i < trkpts.length; i++) {
                 lat = parseFloat(trkpts[i].getAttribute("lat"));
@@ -42,10 +42,27 @@ angular.module('logbook.controllers', []).
             return tracks;
         }
 
+        function calculateBounds(tracks) {
+            var lats = [], lngs = [], sw, ne;
+            tracks.forEach(function (track) {
+                lats = lats.concat(track.path.map(function (point) {
+                    return point.lat;
+                }));
+                lngs = lngs.concat(track.path.map(function (point) {
+                    return point.lng;
+                }));
+            });
+            sw = new google.maps.LatLng(Math.min.apply(null, lats), Math.min.apply(null, lngs));
+            ne = new google.maps.LatLng(Math.max.apply(null, lats), Math.max.apply(null, lngs));
+            return new google.maps.LatLngBounds(sw, ne);
+        }
+
         function loadGpx(name) {
             $http.get(name).success(function (data) {
                 var gpx = new DOMParser().parseFromString(data, 'application/xml');
                 $scope.tracks = parseGpxTracks(gpx);
+                $scope.bounds = calculateBounds($scope.tracks);
+                $scope.options.map.center = $scope.bounds.getCenter();
             });
         }
 
@@ -61,6 +78,6 @@ angular.module('logbook.controllers', []).
             }
         };
 
-        loadGpx('logs/20130714.gpx');
+        loadGpx('logs/20130727.gpx');
 
     }]);
