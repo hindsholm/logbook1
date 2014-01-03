@@ -1,1 +1,14 @@
-<p>This is the partial for detail.</p>
+<div gm-map 
+     gm-map-id="'myMap'" 
+     gm-center="center" 
+     gm-zoom="zoom"
+     gm-map-options="options.map"
+     style="width:500px;height:500px;">
+    <gm-polylines gm-objects="track"
+                  gm-id="object.id"
+                  gm-path="object.path"
+                  gm-polyline-options="options.line">
+    </gm-polylines>
+</div>
+
+{{center}}

@@ -1,5 +1,5 @@
 
-angular.module('logbook', ['ngRoute', 'logbook.controllers', 'ui.bootstrap'])
+angular.module('logbook', ['ngRoute', 'logbook.controllers', 'ui.bootstrap', 'AngularGM'])
 
     .config(['$routeProvider', function ($routeProvider) {
         'use strict';
@@ -16,3 +16,4 @@ angular.module('logbook', ['ngRoute', 'logbook.controllers', 'ui.bootstrap'])
             }
         });
     });
+

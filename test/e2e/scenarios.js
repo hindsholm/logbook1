@@ -10,7 +10,7 @@ describe('logbook', function() {
     });
 
 
-    it('should automatically redirect to /list when location hash/fragment is empty', function() {
+    it('should automatically redirect to /detail when location hash/fragment is empty', function() {
         expect(browser().location().url()).toBe("/detail");
     });
 
@@ -38,8 +38,7 @@ describe('logbook', function() {
 
 
         it('should render detail when user navigates to /detail', function() {
-            expect(element('[ng-view] p:first').text()).
-                toMatch(/partial for detail/);
+            expect(element('[ng-view] [gm-map]').count()).toBe(1);
         });
 
     });
