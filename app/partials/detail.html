@@ -4,11 +4,11 @@
      gm-zoom="zoom"
      gm-map-options="options.map"
      style="width:500px;height:500px;">
-    <gm-polylines gm-objects="track"
+    <gm-polylines gm-objects="tracks"
                   gm-id="object.id"
                   gm-path="object.path"
                   gm-polyline-options="options.line">
     </gm-polylines>
 </div>
 
-{{center}}
+{{tracks[0].path.length}} trackpoints

@@ -6,47 +6,46 @@ angular.module('logbook.controllers', []).
     .controller('DetailCtrl', ['$scope', '$http', function ($scope, $http) {
         'use strict';
 
-        function trackSegmentToArray(segment) {
-            var pointarray = [], lastlon = 200, lastlat = 100, lon, lat, latdiff, londiff, i,
-                trackpoints = segment.getElementsByTagName("trkpt"),
+        function parseTrackSegment(trkseg) {
+            var segment = [], lastlng = 200, lastlat = 100, lng, lat, i,
+                trkpts = trkseg.getElementsByTagName("trkpt"),
                 deltaSquared = 0.0001 * 0.0001;
 
-            for (i = 0; i < trackpoints.length; i++) {
-                lon = parseFloat(trackpoints[i].getAttribute("lon"));
-                lat = parseFloat(trackpoints[i].getAttribute("lat"));
+            for (i = 0; i < trkpts.length; i++) {
+                lat = parseFloat(trkpts[i].getAttribute("lat"));
+                lng = parseFloat(trkpts[i].getAttribute("lon"));
 
                 // Verify that this is far enough away from the last point to be used.
-                latdiff = lat - lastlat;
-                londiff = lon - lastlon;
-                if (latdiff * latdiff + londiff * londiff > deltaSquared) {
-                    lastlon = lon;
+                if (Math.pow(lat - lastlat, 2) + Math.pow(lng - lastlng, 2) > deltaSquared) {
                     lastlat = lat;
-                    pointarray.push({ lat: lastlat, lng: lastlon});
+                    lastlng = lng;
+                    segment.push({ lat: lastlat, lng: lastlng});
                 }
 
             }
-            return pointarray;
+            return segment;
         }
 
-        function addTrackSegmentsToMap(track) {
-            var i, segments = track.getElementsByTagName("trkseg");
+        function parseTrack(trk) {
+            var i, track = [], segments = trk.getElementsByTagName("trkseg");
             for (i = 0; i < segments.length; i++) {
-                $scope.track.push({ id: i, path: trackSegmentToArray(segments[i]) });
+                track.push({ id: i, path: parseTrackSegment(segments[i]) });
             }
+            return track;
         }
 
-        function addTracksToMap(gpx) {
-            var i, tracks = gpx.documentElement.getElementsByTagName("trk");
-            $scope.track = [];
-            for (i = 0; i < tracks.length; i++) {
-                addTrackSegmentsToMap(tracks[i]);
+        function parseGpxTracks(gpx) {
+            var i, tracks = [], trk = gpx.documentElement.getElementsByTagName("trk");
+            for (i = 0; i < trk.length; i++) {
+                tracks = tracks.concat(parseTrack(trk[i]));
             }
+            return tracks;
         }
 
         function loadGpx(name) {
             $http.get(name).success(function (data) {
                 var gpx = new DOMParser().parseFromString(data, 'application/xml');
-                addTracksToMap(gpx);
+                $scope.tracks = parseGpxTracks(gpx);
             });
         }
 
