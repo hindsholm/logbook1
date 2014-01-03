@@ -44,7 +44,7 @@ angular.module('logbook.controllers', []).
         }
 
         function loadGpx(name) {
-            $http.get(name).success(function(data) {
+            $http.get(name).success(function (data) {
                 var gpx = new DOMParser().parseFromString(data, 'application/xml');
                 addTracksToMap(gpx);
             });
