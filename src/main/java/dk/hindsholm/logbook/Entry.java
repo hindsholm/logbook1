@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * An individual logbook entry.
  */
-@XmlRootElement(name = "entry")
+@XmlRootElement
 public class Entry {
 
     private String id;
@@ -16,7 +16,7 @@ public class Entry {
     private String description;
 
     public Entry() {
-        // used by JAXB
+        // used by Jackson
     }
 
     public Entry(@JsonProperty("id") String id, @JsonProperty("link") URI link, @JsonProperty("description") String description) {
