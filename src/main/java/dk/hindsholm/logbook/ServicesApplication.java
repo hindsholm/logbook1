@@ -24,6 +24,7 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
  */
 @ApplicationPath("/")
 public class ServicesApplication extends Application {
+    
     private final Set<Object> singletons = new HashSet<>();
 
     public ServicesApplication() {
@@ -32,7 +33,7 @@ public class ServicesApplication extends Application {
 
     @Override
     public Set<Class<?>> getClasses() {
-        return new HashSet<Class<?>>(Arrays.asList(EchoService.class));
+        return new HashSet<>(Arrays.asList(EchoService.class, EntryResource.class));
     }
 
     @Override
