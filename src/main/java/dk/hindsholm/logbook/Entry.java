@@ -1,5 +1,6 @@
 package dk.hindsholm.logbook;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.net.URI;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -9,17 +10,19 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "entry")
 public class Entry {
-    
+
     private String id;
     private URI link;
+    private String description;
 
     public Entry() {
         // used by JAXB
     }
 
-    public Entry(String id, URI link) {
+    public Entry(@JsonProperty("id") String id, @JsonProperty("link") URI link, @JsonProperty("description") String description) {
         this.id = id;
         this.link = link;
+        this.description = description;
     }
 
     @XmlElement
@@ -29,7 +32,7 @@ public class Entry {
 
     @XmlElement
     public String getDescription() {
-        return "no description available";
+        return description;
     }
 
     @XmlElement

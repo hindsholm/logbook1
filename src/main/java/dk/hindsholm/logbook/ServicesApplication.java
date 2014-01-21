@@ -57,7 +57,7 @@ public class ServicesApplication extends Application {
     @Provider
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_XML })
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_XML })
-    public static class CustomJaxbJsonProvider extends JacksonJaxbJsonProvider {
+    private static class CustomJaxbJsonProvider extends JacksonJaxbJsonProvider {
         public CustomJaxbJsonProvider(ObjectMapper mapper, Annotations[] annotationsToUse) {
             super(mapper, annotationsToUse);
         }

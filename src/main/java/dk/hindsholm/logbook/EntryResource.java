@@ -20,7 +20,7 @@ public class EntryResource {
     @Path("/{id}")
     public Entry getEntry(@PathParam("id") String id) {
         URI uri = uriInfo.getAbsolutePathBuilder().build();
-        return new Entry(id, uri);
+        return new Entry(id, uri, "No description");
     }
 
 }
