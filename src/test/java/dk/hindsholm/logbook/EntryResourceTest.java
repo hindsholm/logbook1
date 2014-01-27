@@ -25,7 +25,7 @@ public class EntryResourceTest {
         when(ui.getAbsolutePathBuilder()).thenReturn(UriBuilder.fromUri("http://test/entries/someId"));
         Entry entry = resource.getEntry("someId");
         assertEquals("someId", entry.getId());
-        assertEquals(new URI("http://test/entries/someId"), entry.getLink());
+        assertEquals(new URI("http://test/entries/someId"), entry.getSelf());
     }
 
 }

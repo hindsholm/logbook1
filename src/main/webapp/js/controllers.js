@@ -1,8 +1,9 @@
-angular.module('logbook.controllers', []).
-    controller('ListCtrl', [function () {
-        'use strict';
+angular.module('logbook.controllers', [])
 
-    }])
+    .controller('ListCtrl', [function() {
+        'use strict';
+        }])
+
     .controller('DetailCtrl', ['$scope', '$http', function ($scope, $http) {
         'use strict';
 

@@ -12,16 +12,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Entry {
 
     private String id;
-    private URI link;
+    private URI self;
     private String description;
 
     public Entry() {
         // used by Jackson
     }
 
-    public Entry(@JsonProperty("id") String id, @JsonProperty("link") URI link, @JsonProperty("description") String description) {
+    public Entry(@JsonProperty("id") String id, @JsonProperty("self") URI self, @JsonProperty("description") String description) {
         this.id = id;
-        this.link = link;
+        this.self = self;
         this.description = description;
     }
 
@@ -36,7 +36,7 @@ public class Entry {
     }
 
     @XmlElement
-    public URI getLink() {
-        return link;
+    public URI getSelf() {
+        return self;
     }
 }

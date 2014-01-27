@@ -23,8 +23,30 @@ To start the app, use the [App Engine Maven Plugin](http://code.google.com/p/app
 
     mvn appengine:devserver
 
+To deploy to Google App Engine:
+
+    mvn appengine:update
+
 For further information, consult the [Java App Engine](https://developers.google.com/appengine/docs/java/overview) documentation.
 
 To see all the available goals for the App Engine plugin, run
 
     mvn help:describe -Dplugin=appengine
+
+## JSON Formats
+
+### Entries list
+
+    [
+      { id: "20130714", url: "http://mhlogbook.appspot.com/rest/entries/20130714" },
+      { id: "20130727", url: "http://mhlogbook.appspot.com/rest/entries/20130727" }
+    ]
+
+### Entry
+
+    {
+      id: "20130714",
+      self: "http://mhlogbook.appspot.com/rest/entries/20130714",
+      description: "Sejltur på fjorden",
+      track: ""http://mhlogbook.appspot.com/logs/20130714.gpx"
+    }

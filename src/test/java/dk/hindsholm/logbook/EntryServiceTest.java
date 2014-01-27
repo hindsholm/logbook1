@@ -17,7 +17,7 @@ public class EntryServiceTest extends JerseyTest {
         WebResource webResource = resource();
         Entry response = webResource.path("entries/myId").get(Entry.class);
         assertEquals("myId", response.getId());
-        assertEquals(getBaseURI().resolve("entries/myId"), response.getLink());
+        assertEquals(getBaseURI().resolve("entries/myId"), response.getSelf());
     }
 
 }
