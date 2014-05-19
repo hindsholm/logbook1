@@ -1,3 +1,6 @@
+/*jslint plusplus: true */
+/*global angular: false, console: false, google: false, DOMParser: false */
+
 angular.module('logbook.controllers', []).
     controller('ListCtrl', [function () {
         'use strict';
