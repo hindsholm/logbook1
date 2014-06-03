@@ -97,6 +97,6 @@ angular.module('logbook.controllers', [])
                 }
             };
 
-            loadGpx('logs/20130714.gpx');
+            loadGpx('tracks/20130714.gpx');
 
         }]);
