@@ -2,7 +2,7 @@
 
 A sailing logbook featuring (well, not yet)
 
-- GPX files for showing tracks on Google Maps
+- GPX/KML/KMZ files for showing tracks on Google Maps
 - Images from the trip
 - Markdown text descriptions
 - Historical weather data
