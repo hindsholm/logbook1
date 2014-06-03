@@ -19,10 +19,8 @@
 <body>
     <div class="container">
         <ul class="nav nav-tabs">
-            <li ng-class="{active: route === '/list'}"><a href="#/list">List</a>
-            </li>
-            <li ng-class="{active: route === '/detail'}"><a href="#/detail">Detail</a>
-            </li>
+            <li ng-class="{active: route === '/list'}"><a href="#/list">List</a></li>
+            <li ng-class="{active: route === '/detail'}"><a href="#/detail">Detail</a></li>
         </ul>
 
         <div ng-view></div>
@@ -34,7 +32,7 @@
     -->
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="js/ui-bootstrap-tpls-0.11.0.min.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
     <script src="//dylanfprice.github.io/angular-gm/1.0.0/angular-gm.min.js"></script>
