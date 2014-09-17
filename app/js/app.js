@@ -1,5 +1,11 @@
+/*global angular: false, console: false */
 
-angular.module('logbook', ['ngRoute', 'logbook.controllers', 'ui.bootstrap', 'AngularGM'])
+angular.module('logbook', ['ngRoute', 'logbook.controllers', 'ui.bootstrap', 'google-maps'])
+
+    .config(['$logProvider', function ($logProvider) {
+        'use strict';
+        $logProvider.debugEnabled(true);
+    }])
 
     .config(['$routeProvider', function ($routeProvider) {
         'use strict';

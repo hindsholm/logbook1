@@ -1,16 +1,5 @@
-<div gm-map 
-     gm-map-id="'myMap'" 
-     gm-center="center" 
-     gm-zoom="zoom"
-     gm-bounds="bounds"
-     gm-map-options="options.map"
-     style="width:500px;height:500px;">
-    <gm-polylines gm-objects="tracks"
-                  gm-id="object.id"
-                  gm-path="object.path"
-                  gm-polyline-options="options.line">
-    </gm-polylines>
-</div>
+<google-map center="map.center" zoom="map.zoom" draggable="true" options="map.options">
+    <polyline ng-repeat="t in tracks" path="t.path" stroke="{color: '#ff0000', weight: 2}" visible="true" static="true" fit="true"></polyline>
+</google-map>
 
 {{tracks[0].path.length}} trackpoints <br/>
-Bounds: {{bounds.toString()}}
