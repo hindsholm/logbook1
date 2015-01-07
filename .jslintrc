@@ -1,0 +1,15 @@
+{
+    "indent": 4,
+    "nomen": true,
+    "plusplus": true,
+    "predef": {
+        "angular": false,
+        "beforeEach": false,
+        "describe": false,
+        "expect": false,
+        "inject": false,
+        "it": false,
+        "module": false,
+        "sinon" : false
+    }
+}

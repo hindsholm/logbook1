@@ -1,0 +1,11 @@
+<google-map center="vm.map.center" zoom="vm.map.zoom" draggable="true" options="vm.map.options" events="vm.map.events">
+    <polyline 
+        ng-repeat="t in vm.tracks" 
+        path="t.path" 
+        stroke="{color: '#ff0000', weight: 2}" 
+        visible="true" 
+        static="true" 
+        fit="true"></polyline>
+</google-map>
+
+{{vm.tracks[0].path.length}} trackpoints <br/>

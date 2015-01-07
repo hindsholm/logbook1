@@ -1,6 +1,0 @@
-/* app css stylesheet */
-
-/* Required by ui-bootstrap */
-.nav, .pagination, .carousel a { cursor: pointer; }
-
-.angular-google-map-container { height: 500px; }

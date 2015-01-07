@@ -1,16 +1,36 @@
 {
     "name": "logbook",
-    "description": "A Sailing Logbook",
-    "version": "0.0.0",
-    "homepage": "https://github.com/hindsholm/logbook",
-    "license": "MIT",
+    "version": "0.1.0",
+    "description": "Sailing Logbook",
+    "keywords": ["sailing", "logbook", "maps"],
+    "authors": ["Morten Hindsholm"],
+    "license": "GPL",
     "private": true,
+    "ignore": ["**/.*", "node_modules", "bower_components"],
     "dependencies": {
-        "angular": "1.2.x",
-        "angular-route": "1.2.x",
-        "angular-loader": "1.2.x",
-        "angular-mocks": "~1.2.x",
-        "angular-bootstrap": "0.11.x",
-        "angular-google-maps": "1.2.x"
+        "jquery": "~2.1.1",
+        "angular-animate": "~1.3",
+        "angular-bootstrap": "~0.11",
+        "angular-google-maps": "1.2.x",
+        "angular-resource": "~1.3",
+        "angular-route": "~1.3",
+        "angular-sanitize": "~1.3",
+        "angular": "~1.3",
+        "bootstrap-sass-official": "~3.3.0"
+    },
+    "overrides": {
+        "angular-bootstrap": {
+            "main": []
+        },
+        "bootstrap-sass-official": {
+            "main": ["**/*.{eot,svg,ttf,woff}"]
+        }
+    },
+    "devDependencies": {
+        "angular-mocks": "~1.3",
+        "jasmine-jquery": "2.0.5"
+    },
+    "resolutions": {
+        "angular": "~1.3"
     }
 }
