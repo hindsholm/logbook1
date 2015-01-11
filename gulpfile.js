@@ -10,5 +10,5 @@ gulp.config = { module: 'logbook'};
 require('require-dir')('./gulp');
 
 // Register our default task
-gulp.task('default', ['bower', 'js', 'build-styles', 'fonts', 'server', 'watch']);
+gulp.task('default', ['bower', 'js', 'fonts', 'server', 'watch']);
 gulp.task('dist:serve', ['dist', 'server:dist']);

@@ -37,13 +37,6 @@ gulp.task('js', function () {
         .pipe(gulp.dest('app'));
 });
 
-gulp.task('build-styles', function () {
-    return gulp.src(['app/**/*.scss', '!app/bower_components/**/*'])
-        .pipe(size())
-        .pipe(sass())
-        .pipe(gulp.dest('build/tmp/styles'));
-});
-
 gulp.task('partials', function () {
     return gulp.src(['app/**/*.html', '!app/index.html', '!app/bower_components/**/*'])
         .pipe(minifyHtml({
@@ -72,7 +65,7 @@ gulp.task('images', function () {
         .pipe(size());
 });
 
-gulp.task('build', ['bower', 'js', 'images', 'fonts', 'build-styles', 'partials'], function () {
+gulp.task('build', ['bower', 'js', 'images', 'fonts', 'partials'], function () {
     var assets = useref.assets();
 
     return gulp.src('app/index.html')
