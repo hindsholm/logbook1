@@ -7,8 +7,8 @@ var gulp = require('gulp'),
     appcache = require('gulp-appcache'),
     csso = require('gulp-csso'),
     filter = require('gulp-filter'),
-    gulpif = require('gulp-if'),
-    inject = require('gulp-inject'),
+    gulpIf = require('gulp-if'),
+    gulpInject = require('gulp-inject'),
     mainBowerFiles = require('main-bower-files'),
     minifyHtml = require('gulp-minify-html'),
     ngAnnotate = require('gulp-ng-annotate'),
@@ -32,7 +32,7 @@ gulp.task('bower', function () {
 
 gulp.task('js', function () {
     return gulp.src('app/index.html')
-        .pipe(inject(gulp.src(['app/**/*.js', '!app/bower_components/**/*', '!**/*_test.js'])
+        .pipe(gulpInject(gulp.src(['app/**/*.js', '!app/bower_components/**/*', '!**/*_test.js'])
                      .pipe(angularFilesort()), {relative: true}))
         .pipe(gulp.dest('app'));
 });
@@ -76,7 +76,7 @@ gulp.task('build', ['bower', 'js', 'images', 'fonts', 'build-styles', 'partials'
     var assets = useref.assets();
 
     return gulp.src('app/index.html')
-        .pipe(inject(gulp.src('build/tmp/**/*.js'), {
+        .pipe(gulpInject(gulp.src('build/tmp/**/*.js'), {
             read: false,
             starttag: '<!-- inject:partials -->',
             addRootSlash: false,
@@ -84,13 +84,13 @@ gulp.task('build', ['bower', 'js', 'images', 'fonts', 'build-styles', 'partials'
         }))
         .pipe(assets)
         .pipe(rev())
-        .pipe(gulpif('*.js', ngAnnotate()))
-        .pipe(gulpif('*.js', uglify()))
-        .pipe(gulpif('*.css', csso()))
+        .pipe(gulpIf('*.js', ngAnnotate()))
+        .pipe(gulpIf('*.js', uglify()))
+        .pipe(gulpIf('*.css', csso()))
         .pipe(assets.restore())
         .pipe(useref())
         .pipe(revReplace())
-        .pipe(gulpif('*.html', minifyHtml({
+        .pipe(gulpIf('*.html', minifyHtml({
             empty: true,
             spare: true,
             quotes: true
