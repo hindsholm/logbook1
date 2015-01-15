@@ -1,33 +1,39 @@
-/*global google: false, DOMParser: false */
+/*global google: false, DOMParser: false, LatLon: false */
 
 angular.module('logbook')
 
     .factory('TrackService', function ($http, $log, $q) {
         'use strict';
 
+        function parseTrackPt(trkpt) {
+            var timeElm = trkpt.getElementsByTagName('time');
+            return {
+                time: timeElm.length > 0 ? Date.parse(timeElm[0].textContent) : 0,
+                latlon: new LatLon(parseFloat(trkpt.getAttribute('lat')), parseFloat(trkpt.getAttribute('lon')))
+            };
+        }
+
         function parseTrackSegment(trkseg) {
-            var i, trkpts = trkseg.getElementsByTagName('trkpt'),
-                lat, lng, lastlat = 100,
-                lastlng = 200,
-                deltaSquared = 0.0001 * 0.0001,
+            var i, cur, prev, dist, speed,
+                trkpts = trkseg.getElementsByTagName('trkpt'),
+                total = 0,
                 segment = [];
 
             for (i = 0; i < trkpts.length; i++) {
-                lat = parseFloat(trkpts[i].getAttribute('lat'));
-                lng = parseFloat(trkpts[i].getAttribute('lon'));
-
-                // Verify that this is far enough away from the last point to be used.
-                if (Math.pow(lat - lastlat, 2) + Math.pow(lng - lastlng, 2) > deltaSquared) {
-                    lastlat = lat;
-                    lastlng = lng;
-                    segment.push({
-                        latitude: lastlat,
-                        longitude: lastlng
-                    });
-                }
-
+                cur = parseTrackPt(trkpts[i]);
+                dist = prev ? prev.latlon.distanceTo(cur.latlon) / 1.852 : 0;
+                speed = prev && cur.time > 0 ? 3600000 * dist / (cur.time - prev.time) : 0;
+                segment.push({
+                    time: cur.time,
+                    latitude: cur.latlon.lat,
+                    longitude: cur.latlon.lon,
+                    dist: dist,
+                    speed: speed
+                });
+                total += dist;
+                prev = cur;
             }
-            $log.info(segment.length + ' trackpoints out of ' + trkpts.length);
+            $log.info(trkpts.length + ' trackpoints. ' + total + ' nm travelled.');
             return segment;
         }
 
@@ -40,6 +46,7 @@ angular.module('logbook')
                     path: parseTrackSegment(segments[i])
                 });
             }
+            $log.info(track);
             return track;
         }
 
