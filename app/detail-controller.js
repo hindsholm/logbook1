@@ -2,7 +2,7 @@
 
 angular.module('logbook')
 
-    .controller('DetailController', function ($routeParams, uiGmapGoogleMapApi, TrackService) {
+    .controller('DetailController', function ($rootScope, $routeParams, uiGmapGoogleMapApi, TrackService) {
         'use strict';
 
         var vm = this;
@@ -29,5 +29,7 @@ angular.module('logbook')
                 vm.tracks = trackData.tracks;
             });
         }
+
+        $rootScope.$broadcast('selection', $routeParams.id);
 
     });

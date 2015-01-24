@@ -21,7 +21,8 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="list-group">
-                            <a href="#/track/{{track}}" class="list-group-item" ng-repeat="track in vm.tracks">{{track}}</a>
+                            <a href="#/track/{{track.file}}" class="list-group-item"
+                               ng-repeat="track in vm.tracks" ng-class="{active: track.selected}">{{track.file}}</a>
                         </div>
                     </div>
                 </div>
