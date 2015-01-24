@@ -1,19 +1,28 @@
-<ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" draggable="true" options="vm.map.options" events="vm.map.events">
-    <ui-gmap-polyline
-        ng-repeat="t in vm.tracks"
-        path="t.path"
-        stroke="{color: '#ff0000', weight: 2}"
-        visible="true"
-        static="true"
-        fit="true"></ui-gmap-polyline>
-    <!-- ui-gmap-polylines models="vm.tracks"
-                       path="'path'"
-                       stroke="{color: '#ff0000', weight: 2}"
-                       visible="true"
-                       static="true"
-                       fit="true"></ui-gmap-polylines -->
-</ui-gmap-google-map>
-
-<ol>
-    <li ng-repeat="track in vm.tracks">{{track.path.length}} trackpoints</li>
-</ol>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <ui-gmap-google-map center="vm.map.center"
+                            zoom="vm.map.zoom"
+                            draggable="true"
+                            options="vm.map.options"
+                            events="vm.map.events">
+            <ui-gmap-polyline
+                ng-repeat="t in vm.tracks"
+                path="t.path"
+                stroke="{color: '#ff0000', weight: 2}"
+                visible="true"
+                static="true"
+                fit="true"></ui-gmap-polyline>
+            <!-- ui-gmap-polylines models="vm.tracks"
+                               path="'path'"
+                               stroke="{color: '#ff0000', weight: 2}"
+                               visible="true"
+                               static="true"
+                               fit="true"></ui-gmap-polylines -->
+        </ui-gmap-google-map>
+    </div>
+</div>
+<div class="alert alert-info" role="alert">
+    <ol>
+        <li ng-repeat="track in vm.tracks">{{track.path.length}} trackpoints</li>
+    </ol>
+</div>

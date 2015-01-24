@@ -64,7 +64,7 @@ angular.module('logbook')
                 var gpx = new DOMParser().parseFromString(data, 'application/xml'),
                     tracks = parseGpxTracks(gpx);
                 deferred.resolve({
-                    tracks: tracks,
+                    tracks: tracks
                 });
             });
             return deferred.promise;

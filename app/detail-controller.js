@@ -2,7 +2,7 @@
 
 angular.module('logbook')
 
-    .controller('DetailController', function ($routeParams, TrackService) {
+    .controller('DetailController', function ($routeParams, uiGmapGoogleMapApi, TrackService) {
         'use strict';
 
         var vm = this;
@@ -14,14 +14,20 @@ angular.module('logbook')
             },
             zoom: 7,
             options: {
-                mapTypeId: google.maps.MapTypeId.HYBRID
             },
             events: {
             }
         };
 
-        TrackService.loadGpx($routeParams.id).then(function (trackData) {
-            vm.tracks = trackData.tracks;
+        uiGmapGoogleMapApi.then(function () {
+            // Google Maps is now ready
+            vm.map.options.mapTypeId = google.maps.MapTypeId.HYBRID;
         });
+
+        if ($routeParams.id) {
+            TrackService.loadGpx($routeParams.id).then(function (trackData) {
+                vm.tracks = trackData.tracks;
+            });
+        }
 
     });

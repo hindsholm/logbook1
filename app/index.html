@@ -12,17 +12,25 @@
 </head>
 
 <body>
-    <div class="container">
-        <ul class="nav nav-tabs">
-            <li ng-class="{active: route === '/list'}"><a href="#/list">List</a></li>
-            <li ng-class="{active: route === '/detail'}"><a href="#/detail">Detail</a></li>
-        </ul>
-
-        <div ng-view></div>
-
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1><span class="glyphicon glyphicon-globe"></span> Logbook</h1>
+            </div>
+            <div class="col-md-2" ng-controller="ListController as vm">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="list-group">
+                            <a href="#/track/{{track}}" class="list-group-item" ng-repeat="track in vm.tracks">{{track}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div ng-view></div>
+            </div>
+        </div>
     </div>
-
-    <script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
