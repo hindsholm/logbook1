@@ -9,10 +9,10 @@ angular.module('logbook')
 
         vm.map = {
             center: {
-                latitude: 56.7,
+                latitude: 56.2,
                 longitude: 10.1
             },
-            zoom: 10,
+            zoom: 7,
             options: {
                 mapTypeId: google.maps.MapTypeId.HYBRID
             },
@@ -22,7 +22,6 @@ angular.module('logbook')
 
         TrackService.loadGpx($routeParams.id).then(function (trackData) {
             vm.tracks = trackData.tracks;
-            vm.map.center = trackData.center;
         });
 
     });

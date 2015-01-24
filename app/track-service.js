@@ -58,23 +58,6 @@ angular.module('logbook')
             return tracks;
         }
 
-        function calculateCenter(tracks) {
-            var lats = [],
-                lngs = [];
-            tracks.forEach(function (track) {
-                lats = lats.concat(track.path.map(function (point) {
-                    return point.latitude;
-                }));
-                lngs = lngs.concat(track.path.map(function (point) {
-                    return point.longitude;
-                }));
-            });
-            return {
-                latitude: (Math.min.apply(null, lats) + Math.max.apply(null, lats)) / 2,
-                longitude: (Math.min.apply(null, lngs) + Math.max.apply(null, lngs)) / 2
-            };
-        }
-
         function loadGpx(name) {
             var deferred = $q.defer();
             $http.get('tracks/' + name).success(function (data) {
@@ -82,7 +65,6 @@ angular.module('logbook')
                     tracks = parseGpxTracks(gpx);
                 deferred.resolve({
                     tracks: tracks,
-                    center: calculateCenter(tracks)
                 });
             });
             return deferred.promise;
