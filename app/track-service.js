@@ -1,4 +1,4 @@
-/*global google: false, DOMParser: false, LatLon: false */
+/*global DOMParser: false, LatLon: false */
 
 angular.module('logbook')
 
@@ -46,7 +46,6 @@ angular.module('logbook')
                     path: parseTrackSegment(segments[i])
                 });
             }
-            $log.info(track);
             return track;
         }
 
