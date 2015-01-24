@@ -2,58 +2,74 @@
 
 angular.module('logbook')
 
-    .factory('TrackService', function ($http, $log, $q) {
+    .factory('TrackService', function ($http, $q) {
         'use strict';
 
+        function textContent(parent, tag, def) {
+            var elms = parent.getElementsByTagName(tag);
+            return elms.length > 0 ? elms[0].textContent : def;
+        }
+
         function parseTrackPt(trkpt) {
-            var timeElm = trkpt.getElementsByTagName('time');
+            var tm = textContent(trkpt, 'time');
             return {
-                time: timeElm.length > 0 ? Date.parse(timeElm[0].textContent) : 0,
+                time: tm ? Date.parse(tm) : 0,
                 latlon: new LatLon(parseFloat(trkpt.getAttribute('lat')), parseFloat(trkpt.getAttribute('lon')))
             };
         }
 
         function parseTrackSegment(trkseg) {
-            var i, cur, prev, dist, speed,
+            var i, cur, prev, delta, speed,
                 trkpts = trkseg.getElementsByTagName('trkpt'),
-                total = 0,
+                distance = 0,
                 segment = [];
 
             for (i = 0; i < trkpts.length; i++) {
                 cur = parseTrackPt(trkpts[i]);
-                dist = prev ? prev.latlon.distanceTo(cur.latlon) / 1.852 : 0;
-                speed = prev && cur.time > 0 ? 3600000 * dist / (cur.time - prev.time) : 0;
+                delta = prev ? prev.latlon.distanceTo(cur.latlon) / 1.852 : 0;
+                speed = prev && cur.time > 0 ? 3600000 * delta / (cur.time - prev.time) : 0;
+                distance += delta;
                 segment.push({
                     time: cur.time,
                     latitude: cur.latlon.lat,
                     longitude: cur.latlon.lon,
-                    dist: dist,
+                    distance: distance,
                     speed: speed
                 });
-                total += dist;
                 prev = cur;
             }
-            $log.info(trkpts.length + ' trackpoints. ' + total + ' nm travelled.');
             return segment;
         }
 
+        // Returns an individual track
         function parseTrack(trk) {
-            var i, track = [],
-                segments = trk.getElementsByTagName('trkseg');
-            for (i = 0; i < segments.length; i++) {
-                track.push({
+            var i, path,
+                segments = [],
+                gpxSegments = trk.getElementsByTagName('trkseg');
+            for (i = 0; i < gpxSegments.length; i++) {
+                path = parseTrackSegment(gpxSegments[i]);
+                segments.push({
                     id: i,
-                    path: parseTrackSegment(segments[i])
+                    path: path,
+                    start: path[0].time,
+                    end: path[path.length - 1].time,
+                    distance: path[path.length - 1].distance
                 });
             }
-            return track;
+            return {
+                name: textContent(trk, 'name', ''),
+                desc: textContent(trk, 'desc', ''),
+                type: textContent(trk, 'type', ''),
+                segments: segments
+            };
         }
 
+        // Returns a list of tracks found in gpx
         function parseGpxTracks(gpx) {
             var i, tracks = [],
                 trk = gpx.documentElement.getElementsByTagName('trk');
             for (i = 0; i < trk.length; i++) {
-                tracks = tracks.concat(parseTrack(trk[i]));
+                tracks.push(parseTrack(trk[i]));
             }
             return tracks;
         }

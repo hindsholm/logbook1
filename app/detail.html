@@ -6,8 +6,8 @@
                             options="vm.map.options"
                             events="vm.map.events">
             <ui-gmap-polyline
-                ng-repeat="t in vm.tracks"
-                path="t.path"
+                ng-repeat="segment in vm.tracks[0].segments"
+                path="segment.path"
                 stroke="{color: '#ff0000', weight: 2}"
                 visible="true"
                 static="true"
@@ -21,8 +21,27 @@
         </ui-gmap-google-map>
     </div>
 </div>
-<div class="alert alert-info" role="alert">
-    <ol>
-        <li ng-repeat="track in vm.tracks">{{track.path.length}} trackpoints</li>
-    </ol>
-</div>
+
+<h2>{{vm.tracks[0].name}}</h2>
+<p>{{vm.tracks[0].desc}}</p>
+
+<table class="table table-condensed">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Distance (nm)</th>
+            <th>Trackpoints</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="segment in vm.tracks[0].segments">
+            <td>{{segment.id}}</td>
+            <td>{{segment.start | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td>{{segment.end | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td>{{segment.distance | number:2}}</td>
+            <td>{{segment.path.length}}</td>
+        </tr>
+    </tbody>
+</table>
