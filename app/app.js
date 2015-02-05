@@ -1,4 +1,4 @@
-angular.module('logbook', ['ngRoute', 'ui.bootstrap', 'uiGmapgoogle-maps'])
+angular.module('logbook', ['ngRoute', 'googlechart', 'ui.bootstrap', 'uiGmapgoogle-maps'])
 
     .config(function (uiGmapGoogleMapApiProvider) {
         'use strict';
@@ -16,7 +16,12 @@ angular.module('logbook', ['ngRoute', 'ui.bootstrap', 'uiGmapgoogle-maps'])
             .when('/track/:id?', {
                 templateUrl: 'detail.html',
                 controller: 'DetailController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    trackData: function ($route, TrackService) {
+                        return ($route.current.params.id) ? TrackService.loadGpx($route.current.params.id) : null;
+                    }
+                }
             })
             .otherwise({
                 redirectTo: '/track/'

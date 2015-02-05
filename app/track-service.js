@@ -5,6 +5,8 @@ angular.module('logbook')
     .factory('TrackService', function ($http, $q) {
         'use strict';
 
+        var DELTA_MIN = 0.003; // Minimumn distance between trackpoints in nautical miles
+
         function textContent(parent, tag, def) {
             var elms = parent.getElementsByTagName(tag);
             return elms.length > 0 ? elms[0].textContent : def;
@@ -27,16 +29,18 @@ angular.module('logbook')
             for (i = 0; i < trkpts.length; i++) {
                 cur = parseTrackPt(trkpts[i]);
                 delta = prev ? prev.latlon.distanceTo(cur.latlon) / 1.852 : 0;
-                speed = prev && cur.time > 0 ? 3600000 * delta / (cur.time - prev.time) : 0;
-                distance += delta;
-                segment.push({
-                    time: cur.time,
-                    latitude: cur.latlon.lat,
-                    longitude: cur.latlon.lon,
-                    distance: distance,
-                    speed: speed
-                });
-                prev = cur;
+                if (i === 0 || delta > DELTA_MIN) {
+                    speed = prev && cur.time > 0 ? 3600000 * delta / (cur.time - prev.time) : 0;
+                    distance += delta;
+                    segment.push({
+                        time: cur.time,
+                        latitude: cur.latlon.lat,
+                        longitude: cur.latlon.lon,
+                        distance: distance,
+                        speed: speed
+                    });
+                    prev = cur;
+                }
             }
             return segment;
         }
