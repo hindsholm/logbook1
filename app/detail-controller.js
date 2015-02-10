@@ -27,7 +27,7 @@ angular.module('logbook')
 
         googleChartApiPromise.then(function () {
             // Google Charts ready
-            var i, j, k, track, segment, time;
+            var i, k, track, point, time;
             vm.chart = {
                 type: 'LineChart',
                 options: {
@@ -46,15 +46,12 @@ angular.module('logbook')
             };
             for (i = 0; i < vm.tracks.length; ++i) {
                 track = vm.tracks[i];
-                for (j = 0; j < track.segments.length; ++j) {
-                    segment = track.segments[j];
-                    // speed is always 0 at point 0, so start from point 1
-                    for (k = 1; k < segment.path.length; k += 10) {
-                        time = segment.path[k].time;
-                        vm.chart.data.addRow([new Date(time), segment.path[k].speed]);
+                for (k = 0; k < track.points.length; ++k) {
+                    point = track.points[k];
+                    if (point.speed === null || point.time > time + 60000) {
+                        time = point.time;
+                        vm.chart.data.addRow([new Date(time), point.speed]);
                     }
-                    // a null value makes the graph discontinuous between segments
-                    vm.chart.data.addRow([new Date(time + 1000), null]);
                 }
             }
         });

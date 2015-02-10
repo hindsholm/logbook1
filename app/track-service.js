@@ -20,17 +20,15 @@ angular.module('logbook')
             };
         }
 
-        function parseTrackSegment(trkseg) {
+        function parseTrackSegment(trkseg, distance) {
             var i, cur, prev, delta, speed,
                 trkpts = trkseg.getElementsByTagName('trkpt'),
-                distance = 0,
                 segment = [];
-
             for (i = 0; i < trkpts.length; i++) {
                 cur = parseTrackPt(trkpts[i]);
                 delta = prev ? prev.latlon.distanceTo(cur.latlon) / 1.852 : 0;
                 if (i === 0 || delta > DELTA_MIN) {
-                    speed = prev && cur.time > 0 ? 3600000 * delta / (cur.time - prev.time) : 0;
+                    speed = prev && cur.time > 0 ? 3600000 * delta / (cur.time - prev.time) : null;
                     distance += delta;
                     segment.push({
                         time: cur.time,
@@ -45,26 +43,25 @@ angular.module('logbook')
             return segment;
         }
 
-        // Returns an individual track
+        // Returns an individual track with its segments collapsed into one
         function parseTrack(trk) {
-            var i, path,
-                segments = [],
+            var i, segment,
+                distance = 0,
+                points = [],
                 gpxSegments = trk.getElementsByTagName('trkseg');
             for (i = 0; i < gpxSegments.length; i++) {
-                path = parseTrackSegment(gpxSegments[i]);
-                segments.push({
-                    id: i,
-                    path: path,
-                    start: path[0].time,
-                    end: path[path.length - 1].time,
-                    distance: path[path.length - 1].distance
-                });
+                segment = parseTrackSegment(gpxSegments[i], distance);
+                Array.prototype.push.apply(points, segment);
+                distance = segment[segment.length - 1].distance;
             }
             return {
                 name: textContent(trk, 'name', ''),
                 desc: textContent(trk, 'desc', ''),
                 type: textContent(trk, 'type', ''),
-                segments: segments
+                start: points[0].time,
+                end: points[points.length - 1].time,
+                distance: points[points.length - 1].distance,
+                points: points
             };
         }
 
