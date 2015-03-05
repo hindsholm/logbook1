@@ -35,8 +35,7 @@
     },
     "geodesy": {
       "main": [
-        "geo.js",
-        "latlon.js"
+        "latlon-spherical.js"
       ]
     }
   },

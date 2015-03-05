@@ -1,0 +1,15 @@
+{
+    "indent": 4,
+    "plusplus": false,
+    "predef": [
+        "angular",
+        "beforeEach",
+        "describe",
+        "expect",
+        "inject",
+        "it",
+        "module",
+        "sinon"
+    ],
+    "strict": true
+}
