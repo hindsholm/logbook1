@@ -1,3 +1,4 @@
 app/bower_components/
 build/
+deploy.sh
 node_modules/
