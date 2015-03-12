@@ -65,6 +65,7 @@ gulp.task('images', function () {
         .pipe(size());
 });
 
+// Builds the application in build/dist
 gulp.task('build', ['bower', 'js', 'images', 'fonts', 'partials'], function () {
     var assets = useref.assets();
 
@@ -79,7 +80,6 @@ gulp.task('build', ['bower', 'js', 'images', 'fonts', 'partials'], function () {
         .pipe(rev())
         .pipe(gulpIf('*.js', ngAnnotate()))
         .pipe(gulpIf('*.js', uglify()))
-        .pipe(gulpIf('*.css', csso()))
         .pipe(assets.restore())
         .pipe(useref())
         .pipe(revReplace())
@@ -92,8 +92,15 @@ gulp.task('build', ['bower', 'js', 'images', 'fonts', 'partials'], function () {
         .pipe(size());
 });
 
+// Copies static files to build/dist
+gulp.task('static', function () {
+    gulp.src(['app/**/*.css', 'app/**/*.gpx', '!app/bower_components/**/*'])
+        .pipe(gulpIf('*.css', csso()))
+        .pipe(gulp.dest('build/dist'));
+});
+
 // Creates HTML5 AppCache manifest
-gulp.task('appcache', ['build'], function () {
+gulp.task('appcache', ['build', 'static'], function () {
     gulp.src(['build/dist/**/*'])
         .pipe(appcache({
             filename: 'app.manifest',
