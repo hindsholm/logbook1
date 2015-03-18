@@ -21,13 +21,13 @@ angular.module('logbook')
         }
 
         function parseTrackSegment(trkseg, distance) {
-            var i, cur, prev, delta, speed,
+            var cur, prev, delta, speed,
                 trkpts = trkseg.getElementsByTagName('trkpt'),
                 segment = [];
-            for (i = 0; i < trkpts.length; i++) {
-                cur = parseTrackPt(trkpts[i]);
+            angular.forEach(trkpts, function (trkpt) {
+                cur = parseTrackPt(trkpt);
                 delta = prev ? prev.latlon.distanceTo(cur.latlon) / 1852 : 0;
-                if (i === 0 || delta > DELTA_MIN) {
+                if (prev === undefined || delta > DELTA_MIN) {
                     speed = prev && cur.time > 0 ? 3600000 * delta / (cur.time - prev.time) : null;
                     distance += delta;
                     segment.push({
@@ -39,21 +39,21 @@ angular.module('logbook')
                     });
                     prev = cur;
                 }
-            }
+            });
             return segment;
         }
 
         // Returns an individual track with its segments collapsed into one
         function parseTrack(trk) {
-            var i, segment,
+            var segment,
                 distance = 0,
                 points = [],
                 gpxSegments = trk.getElementsByTagName('trkseg');
-            for (i = 0; i < gpxSegments.length; i++) {
-                segment = parseTrackSegment(gpxSegments[i], distance);
+            angular.forEach(gpxSegments, function (gpxSegment) {
+                segment = parseTrackSegment(gpxSegment, distance);
                 Array.prototype.push.apply(points, segment);
                 distance = segment[segment.length - 1].distance;
-            }
+            });
             return {
                 name: textContent(trk, 'name', ''),
                 desc: textContent(trk, 'desc', ''),
@@ -67,11 +67,11 @@ angular.module('logbook')
 
         // Returns a list of tracks found in gpx
         function parseGpxTracks(gpx) {
-            var i, tracks = [],
+            var tracks = [],
                 trk = gpx.documentElement.getElementsByTagName('trk');
-            for (i = 0; i < trk.length; i++) {
-                tracks.push(parseTrack(trk[i]));
-            }
+            angular.forEach(trk, function (t) {
+                tracks.push(parseTrack(t));
+            });
             return tracks;
         }
 

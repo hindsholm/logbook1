@@ -27,7 +27,6 @@ angular.module('logbook')
 
         googleChartApiPromise.then(function () {
             // Google Charts ready
-            var i, k, track, point, time;
             vm.chart = {
                 type: 'LineChart',
                 options: {
@@ -44,16 +43,16 @@ angular.module('logbook')
                     ]
                 })
             };
-            for (i = 0; i < vm.tracks.length; ++i) {
-                track = vm.tracks[i];
-                for (k = 0; k < track.points.length; ++k) {
-                    point = track.points[k];
+            // Plot speed once for every minute
+            angular.forEach(vm.tracks, function (track) {
+                var time = 0;
+                angular.forEach(track.points, function (point) {
                     if (point.speed === null || point.time > time + 60000) {
                         time = point.time;
                         vm.chart.data.addRow([new Date(time), point.speed]);
                     }
-                }
-            }
+                });
+            });
         });
 
         $rootScope.$broadcast('selection', $routeParams.id);
