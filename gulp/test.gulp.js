@@ -4,7 +4,7 @@
 
 var gulp = require('gulp'),
     angularFilesort = require('gulp-angular-filesort'),
-    filenames = require("gulp-filenames"),
+    filenames = require('gulp-filenames'),
     karma = require('gulp-karma'),
     wiredep = require('wiredep');
 
@@ -35,6 +35,6 @@ gulp.task('test', ['get-sources'], function () {
         .on('error', function (err) {
             // Make sure failed tests cause gulp to exit non-zero
             console.log(err);
-            this.emit('end'); //instead of erroring the stream, end it
+            this.emit('end'); // instead of erroring the stream, end it
         });
 });

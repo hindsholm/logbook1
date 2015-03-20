@@ -2,8 +2,8 @@
 
 'use strict';
 
-var gulp  = require('gulp'),
-    del   = require('del');
+var gulp = require('gulp'),
+    del = require('del');
 
 // Cleans the dist directory
 gulp.task('clean', function (cb) {

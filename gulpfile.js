@@ -1,4 +1,5 @@
-/*jslint node: true */
+/*eslint-env node */
+/*eslint strict: [2, "global"] */
 
 'use strict';
 

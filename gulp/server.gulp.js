@@ -2,7 +2,7 @@
 
 'use strict';
 
-var gulp    = require('gulp'),
+var gulp = require('gulp'),
     connect = require('gulp-connect');
 
 gulp.task('server', function () {

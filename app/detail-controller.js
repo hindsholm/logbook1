@@ -2,14 +2,14 @@
 
 angular.module('logbook')
 
-    .controller('DetailController', function ($rootScope, $routeParams, uiGmapGoogleMapApi,
+    .controller('DetailController', function detailCopntroller($rootScope, $routeParams, uiGmapGoogleMapApi,
                                                googleChartApiPromise, trackData) {
         'use strict';
 
         var vm = this;
         vm.tracks = trackData ? trackData.tracks : [];
 
-        uiGmapGoogleMapApi.then(function () {
+        uiGmapGoogleMapApi.then(function googleMapReady() {
             // Google Maps ready
             vm.map = {
                 center: {
@@ -25,7 +25,7 @@ angular.module('logbook')
             };
         });
 
-        googleChartApiPromise.then(function () {
+        googleChartApiPromise.then(function googleChartReady() {
             // Google Charts ready
             vm.chart = {
                 type: 'LineChart',

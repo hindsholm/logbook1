@@ -1,6 +1,6 @@
 angular.module('logbook', ['ngRoute', 'googlechart', 'ui.bootstrap', 'uiGmapgoogle-maps'])
 
-    .config(function (uiGmapGoogleMapApiProvider) {
+    .config(function configGmap(uiGmapGoogleMapApiProvider) {
         'use strict';
         uiGmapGoogleMapApiProvider.configure({
             china: false,
@@ -10,7 +10,7 @@ angular.module('logbook', ['ngRoute', 'googlechart', 'ui.bootstrap', 'uiGmapgoog
         });
     })
 
-    .config(['$routeProvider', function ($routeProvider) {
+    .config(['$routeProvider', function configRoute($routeProvider) {
         'use strict';
         $routeProvider
             .when('/track/:id?', {
@@ -18,8 +18,8 @@ angular.module('logbook', ['ngRoute', 'googlechart', 'ui.bootstrap', 'uiGmapgoog
                 controller: 'DetailController',
                 controllerAs: 'vm',
                 resolve: {
-                    trackData: function ($route, TrackService) {
-                        return ($route.current.params.id) ? TrackService.loadGpx($route.current.params.id) : null;
+                    trackData: function resolveTrackData($route, TrackService) {
+                        return $route.current.params.id ? TrackService.loadGpx($route.current.params.id) : null;
                     }
                 }
             })

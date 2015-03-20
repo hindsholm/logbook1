@@ -2,8 +2,8 @@
 
 'use strict';
 
-var gulp        = require('gulp'),
-    livereload  = require('gulp-livereload');
+var gulp = require('gulp'),
+    livereload = require('gulp-livereload');
 
 // Watches the source tree for changes
 gulp.task('watch', function () {
