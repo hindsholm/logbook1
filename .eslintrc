@@ -6,6 +6,9 @@ env:
   es6: false
   node: false
 
+plugins:
+  - angular
+
 globals:
   angular: false
   beforeEach: false
@@ -164,3 +167,13 @@ rules:
   max-statements: [1, 50] # specify the maximum number of statement allowed in a function
   no-bitwise: 2 # disallow use of bitwise operators
   no-plusplus: 0 # disallow use of unary operators, ++ and --
+
+  # Angular
+  angular/ng_controller_name: [2, '/[A-Z].*Controller$/']
+  angular/ng_di: [2, 'function']
+  angular/ng_document_service: 2
+  angular/ng_interval_service: 2
+  angular/ng_json_functions: 2
+  angular/ng_no_digest: 2
+  angular/ng_timeout_service: 2
+  angular/ng_window_service: 2

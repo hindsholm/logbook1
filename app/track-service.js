@@ -27,7 +27,7 @@ angular.module('logbook')
             angular.forEach(trkpts, function (trkpt) {
                 cur = parseTrackPt(trkpt);
                 delta = prev ? prev.latlon.distanceTo(cur.latlon) / 1852 : 0;
-                if (prev === undefined || delta > DELTA_MIN) {
+                if (!prev || delta > DELTA_MIN) {
                     speed = prev && cur.time > 0 ? 3600000 * delta / (cur.time - prev.time) : null;
                     distance += delta;
                     segment.push({

@@ -2,7 +2,7 @@
 
 angular.module('logbook')
 
-    .controller('DetailController', function detailCopntroller($rootScope, $routeParams, uiGmapGoogleMapApi,
+    .controller('DetailController', function detailController($rootScope, $routeParams, uiGmapGoogleMapApi,
                                                googleChartApiPromise, trackData) {
         'use strict';
 
