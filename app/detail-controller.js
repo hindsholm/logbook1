@@ -9,9 +9,8 @@ angular.module('logbook')
         var vm = this;
         vm.tracks = trackData ? trackData.tracks : [];
 
-        uiGmapGoogleMapApi.then(function googleMapReady() {
-            // Google Maps ready
-            vm.map = {
+        function createMap() {
+            return {
                 center: {
                     latitude: 56.2,
                     longitude: 10.1
@@ -23,11 +22,10 @@ angular.module('logbook')
                 events: {
                 }
             };
-        });
+        }
 
-        googleChartApiPromise.then(function googleChartReady() {
-            // Google Charts ready
-            vm.chart = {
+        function createChart() {
+            return {
                 type: 'LineChart',
                 options: {
                     curveType: 'function',
@@ -43,16 +41,30 @@ angular.module('logbook')
                     ]
                 })
             };
+        }
+
+        function plotSpeed(chart) {
             // Plot speed once for every minute
             angular.forEach(vm.tracks, function (track) {
                 var time = 0;
                 angular.forEach(track.points, function (point) {
                     if (point.speed === null || point.time > time + 60000) {
                         time = point.time;
-                        vm.chart.data.addRow([new Date(time), point.speed]);
+                        chart.data.addRow([new Date(time), point.speed]);
                     }
                 });
             });
+        }
+
+        uiGmapGoogleMapApi.then(function googleMapReady() {
+            // Google Maps ready
+            vm.map = createMap();
+        });
+
+        googleChartApiPromise.then(function googleChartReady() {
+            // Google Charts ready
+            vm.chart = createChart();
+            plotSpeed(vm.chart);
         });
 
         $rootScope.$broadcast('selection', $routeParams.id);
