@@ -2,8 +2,8 @@
 
 angular.module('logbook')
 
-    .controller('DetailController', function detailController($rootScope, $routeParams, $q, uiGmapGoogleMapApi,
-                                               googleChartApiPromise, trackData) {
+    .controller('DetailController', function detailController($rootScope, $routeParams, uiGmapGoogleMapApi,
+                                               googleChartApiPromise, trackData, GeocoderService) {
         'use strict';
 
         var vm = this;
@@ -22,24 +22,6 @@ angular.module('logbook')
                 events: {
                 }
             };
-        }
-
-        function reverseGeocode(point) {
-            var latlng = new google.maps.LatLng(point.latitude, point.longitude),
-                geocoder = new google.maps.Geocoder(),
-                deferred = $q.defer();
-
-            function townName(addressComponents) {
-                // Heuristics show that this is the best town name
-                return addressComponents.length < 6 ? addressComponents[1].long_name : addressComponents[2].long_name;
-            }
-
-            geocoder.geocode({latLng: latlng}, function (results, status) {
-                if (status === google.maps.GeocoderStatus.OK) {
-                    deferred.resolve(townName(results[0].address_components));
-                }
-            });
-            return deferred.promise;
         }
 
         function createChart() {
@@ -78,10 +60,10 @@ angular.module('logbook')
             // Google Maps ready
             var lastTrack = vm.tracks[vm.tracks.length - 1];
             vm.map = createMap();
-            reverseGeocode(vm.tracks[0].points[0]).then(function (place) {
+            GeocoderService.reverse(vm.tracks[0].points[0]).then(function (place) {
                 vm.origin = place;
             });
-            reverseGeocode(lastTrack.points[lastTrack.points.length - 1]).then(function (place) {
+            GeocoderService.reverse(lastTrack.points[lastTrack.points.length - 1]).then(function (place) {
                 vm.destination = place;
             });
         });
