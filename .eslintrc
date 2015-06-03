@@ -163,7 +163,7 @@ rules:
   # Legacy
   max-depth: [2, 5] # specify the maximum depth that blocks can be nested
   max-len: [1, 144] # specify the maximum length of a line in your program
-  max-params: [2, 5] # limits the number of parameters that can be used in the function declaration.
+  max-params: [2, 8] # limits the number of parameters that can be used in the function declaration.
   max-statements: [1, 50] # specify the maximum number of statement allowed in a function
   no-bitwise: 2 # disallow use of bitwise operators
   no-plusplus: 0 # disallow use of unary operators, ++ and --
@@ -175,5 +175,6 @@ rules:
   angular/ng_interval_service: 2
   angular/ng_json_functions: 2
   angular/ng_no_digest: 2
+  angular/ng_no_services: 0
   angular/ng_timeout_service: 2
   angular/ng_window_service: 2

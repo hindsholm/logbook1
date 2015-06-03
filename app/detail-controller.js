@@ -2,7 +2,7 @@
 
 angular.module('logbook')
 
-    .controller('DetailController', function detailController($rootScope, $routeParams, uiGmapGoogleMapApi,
+    .controller('DetailController', function detailController($rootScope, $routeParams, $q, uiGmapGoogleMapApi,
                                                googleChartApiPromise, trackData) {
         'use strict';
 
@@ -24,6 +24,24 @@ angular.module('logbook')
             };
         }
 
+        function reverseGeocode(point) {
+            var latlng = new google.maps.LatLng(point.latitude, point.longitude),
+                geocoder = new google.maps.Geocoder(),
+                deferred = $q.defer();
+
+            function townName(addressComponents) {
+                // Heuristics show that this is the best town name
+                return addressComponents.length < 6 ? addressComponents[1].long_name : addressComponents[2].long_name;
+            }
+
+            geocoder.geocode({latLng: latlng}, function (results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                    deferred.resolve(townName(results[0].address_components));
+                }
+            });
+            return deferred.promise;
+        }
+
         function createChart() {
             return {
                 type: 'LineChart',
@@ -43,9 +61,9 @@ angular.module('logbook')
             };
         }
 
-        function plotSpeed(chart) {
+        function plotSpeed(chart, tracks) {
             // Plot speed once for every minute
-            angular.forEach(vm.tracks, function (track) {
+            angular.forEach(tracks, function (track) {
                 var time = 0;
                 angular.forEach(track.points, function (point) {
                     if (point.speed === null || point.time > time + 60000) {
@@ -58,13 +76,20 @@ angular.module('logbook')
 
         uiGmapGoogleMapApi.then(function googleMapReady() {
             // Google Maps ready
+            var lastTrack = vm.tracks[vm.tracks.length - 1];
             vm.map = createMap();
+            reverseGeocode(vm.tracks[0].points[0]).then(function (place) {
+                vm.origin = place;
+            });
+            reverseGeocode(lastTrack.points[lastTrack.points.length - 1]).then(function (place) {
+                vm.destination = place;
+            });
         });
 
         googleChartApiPromise.then(function googleChartReady() {
             // Google Charts ready
             vm.chart = createChart();
-            plotSpeed(vm.chart);
+            plotSpeed(vm.chart, vm.tracks);
         });
 
         $rootScope.$broadcast('selection', $routeParams.id);
