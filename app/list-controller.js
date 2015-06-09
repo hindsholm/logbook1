@@ -18,7 +18,11 @@ angular.module('logbook')
             { file: '20140726.gpx', name: '2014-07-26' },
             { file: '20140727.gpx', name: '2014-07-27' },
             { file: '20140728.gpx', name: '2014-07-28' },
-            { file: '20140729.gpx', name: '2014-07-29' }
+            { file: '20140729.gpx', name: '2014-07-29' },
+            { file: '20150603.gpx', name: '2015-06-03' },
+            { file: '20150605A.gpx', name: '2015-06-05 A' },
+            { file: '20150605B.gpx', name: '2015-06-05 B' },
+            { file: '20150606.gpx', name: '2015-06-06' }
         ];
 
         /*jslint unparam: true */
