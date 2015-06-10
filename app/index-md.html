@@ -1,0 +1,49 @@
+<html lang="en" ng-app="StarterApp">
+
+<head>
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+    <meta name="viewport" content="initial-scale=1" />
+</head>
+
+<body layout="column" ng-controller="AppCtrl as vm">
+
+    <md-toolbar layout="row">
+        <div class="md-toolbar-tools">
+            <h1>Logbook</h1>
+            <md-select placeholder="Track" ng-model="vm.track" ng-change="vm.trackSelected()">
+                <md-option ng-repeat="track in vm.tracks" value="{{track.file}}">{{track.name}}</md-option>
+            </md-select>
+        </div>
+    </md-toolbar>
+
+    <div layout="row" flex>
+        <md-content layout="column" flex class="md-padding">
+            Selected track: {{vm.track}}.
+        </md-content>
+    </div>
+
+    <!-- Angular Material Dependencies -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-material/angular-material.js"></script>
+    <script>
+        angular.module('StarterApp', ['ngMaterial'])
+            .controller('AppCtrl', function () {
+                var vm = this;
+                vm.track = '';
+                vm.tracks = ['20150603.gpx', '20150605A.gpx', '20150605B.gpx', '20150606.gpx'].map(function (file) {
+                    return {
+                        file: file,
+                        name: file.replace(/(\d{4})(\d{2})(\d{2})(\w?)\.gpx/, '$1-$2-$3 $4')
+                    };
+                });
+                vm.trackSelected = function () {
+                    console.log(vm.track);
+                };
+            });
+    </script>
+</body>
+
+</html>
