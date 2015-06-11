@@ -1,4 +1,4 @@
-angular.module('logbook', ['ngRoute', 'googlechart', 'ui.bootstrap', 'uiGmapgoogle-maps'])
+angular.module('logbook', ['ngMaterial', 'googlechart', 'uiGmapgoogle-maps'])
 
     .config(function configGmap(uiGmapGoogleMapApiProvider) {
         'use strict';

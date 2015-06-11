@@ -18,10 +18,8 @@
     "bower_components"
   ],
   "dependencies": {
-    "angular-bootstrap": "~0.13",
     "angular-google-maps": "~2.1",
     "angular-resource": "~1.4",
-    "angular-route": "~1.4",
     "angular-sanitize": "~1.4",
     "angular": "~1.4",
     "angular-google-chart": "~0.0.11",

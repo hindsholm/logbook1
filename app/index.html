@@ -4,13 +4,45 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1" />
     <title>Logbook</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
     <link rel="stylesheet" href="app.css">
 </head>
 
+<body layout="column" ng-controller="LogbookController as vm">
+
+    <md-toolbar layout="row">
+        <div class="md-toolbar-tools">
+            <h1>Logbook</h1>
+            <md-select placeholder="Track" ng-model="vm.gpx" ng-change="vm.gpxSelected()" ng-disabled="!vm.mapReady || !vm.chartReady">
+                <md-option ng-repeat="gpx in vm.gpxFiles" value="{{gpx.file}}">{{gpx.name}}</md-option>
+            </md-select>
+        </div>
+    </md-toolbar>
+
+    <div layout="row" flex>
+        <md-content layout="column" flex class="md-padding">
+
+            <!-- Map -->
+            <div>
+                <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" draggable="true" options="vm.map.options" events="vm.map.events">
+                    <ui-gmap-polyline ng-repeat="track in vm.tracks" path="track.points" stroke="{color: '#ff0000', weight: 2}" visible="true" static="true" fit="true"></ui-gmap-polyline>
+                </ui-gmap-google-map>
+            </div>
+
+            <!-- Chart -->
+            <div google-chart chart="vm.chart" style="width: 100%; height: 100px;"></div>
+
+            <!-- Description -->
+            <h2>{{vm.tracks[0].name}}</h2>
+            <p>{{vm.tracks[0].desc}}</p>
+            <p>From {{vm.origin}} to {{vm.destination}}</p>
+        </md-content>
+    </div>
+
+<!--
 <body ng-controller="LogbookController as vm">
     <div class="container-fluid">
         <div class="row">
@@ -60,6 +92,8 @@
             </div>
         </div>
     </div>
+
+    -->
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/angular/angular.js"></script>

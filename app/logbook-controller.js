@@ -10,6 +10,12 @@ angular.module('logbook')
         vm.mapReady = false;
         vm.chartReady = false;
         vm.gpx = '';
+        vm.gpxFiles = ['20150603.gpx', '20150605A.gpx', '20150605B.gpx', '20150606.gpx'].map(function (file) {
+            return {
+                file: file,
+                name: file.replace(/(\d{4})(\d{2})(\d{2})(\w?)\.gpx/, '$1-$2-$3 $4')
+            };
+        });
         vm.tracks = [];
 
         function plotSpeed(tracks) {
