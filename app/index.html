@@ -11,89 +11,54 @@
     <link rel="stylesheet" href="app.css">
 </head>
 
-<body layout="column" ng-controller="LogbookController as vm">
+<body layout="row" ng-controller="LogbookController as vm">
 
-    <md-toolbar layout="row">
-        <div class="md-toolbar-tools">
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
+
+        <md-toolbar class="md-whiteframe-z1">
+            <h1>Information</h1>
+        </md-toolbar>
+
+        <md-select placeholder="Track" ng-model="vm.gpx" ng-change="vm.gpxSelected()"
+                   ng-disabled="!vm.mapReady || !vm.chartReady">
+            <md-option ng-repeat="gpx in vm.gpxFiles" value="{{gpx.file}}">{{gpx.name}}</md-option>
+        </md-select>
+
+        <!-- Description -->
+        <h2>{{vm.tracks[0].name}}</h2>
+        <p>{{vm.tracks[0].desc}}</p>
+        <p>{{vm.origin}} - {{vm.destination}}</p>
+
+    </md-sidenav>
+
+    <div flex layout="column" class="md-whiteframe-z2">
+
+        <md-toolbar layout="row" class="md-whiteframe-z1">
+            <md-button class="menu" hide-gt-sm ng-click="vm.toggleSidebar()" aria-label="Show Sidebar">
+                <md-icon md-svg-icon="menu"></md-icon>
+            </md-button>
             <h1>Logbook</h1>
-            <md-select placeholder="Track" ng-model="vm.gpx" ng-change="vm.gpxSelected()" ng-disabled="!vm.mapReady || !vm.chartReady">
-                <md-option ng-repeat="gpx in vm.gpxFiles" value="{{gpx.file}}">{{gpx.name}}</md-option>
-            </md-select>
-        </div>
-    </md-toolbar>
+        </md-toolbar>
 
-    <div layout="row" flex>
-        <md-content layout="column" flex class="md-padding">
+        <md-content layout="column" flex>
 
             <!-- Map -->
-            <div>
-                <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" draggable="true" options="vm.map.options" events="vm.map.events">
-                    <ui-gmap-polyline ng-repeat="track in vm.tracks" path="track.points" stroke="{color: '#ff0000', weight: 2}" visible="true" static="true" fit="true"></ui-gmap-polyline>
-                </ui-gmap-google-map>
-            </div>
+            <md-card>
+                <div>
+                    <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" draggable="true" options="vm.map.options" events="vm.map.events">
+                        <ui-gmap-polyline ng-repeat="track in vm.tracks" path="track.points" stroke="{color: '#ff0000', weight: 2}" visible="true" static="true" fit="true"></ui-gmap-polyline>
+                    </ui-gmap-google-map>
+                </div>
+            </md-card>
 
             <!-- Chart -->
-            <div google-chart chart="vm.chart" style="width: 100%; height: 100px;"></div>
+            <md-card>
+                <div google-chart chart="vm.chart" style="width: 100%; height: 100px;"></div>
+            </md-card>
 
-            <!-- Description -->
-            <h2>{{vm.tracks[0].name}}</h2>
-            <p>{{vm.tracks[0].desc}}</p>
-            <p>From {{vm.origin}} to {{vm.destination}}</p>
         </md-content>
     </div>
 
-<!--
-<body ng-controller="LogbookController as vm">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <h1><span class="glyphicon glyphicon-globe"></span> Logbook</h1>
-                <select ng-model="vm.gpx" ng-change="vm.gpxSelected()" ng-disabled="!vm.mapReady || !vm.chartReady">
-                    <option>20150605A.gpx</option>
-                    <option>20150605B.gpx</option>
-                    <option>20150606.gpx</option>
-                </select>
-            </div>
-            <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" draggable="true" options="vm.map.options" events="vm.map.events">
-                            <ui-gmap-polyline ng-repeat="track in vm.tracks" path="track.points" stroke="{color: '#ff0000', weight: 2}" visible="true" static="true" fit="true"></ui-gmap-polyline>
-                        </ui-gmap-google-map>
-                    </div>
-                </div>
-
-                <div google-chart chart="vm.chart" style="width: 100%; height: 100px;"></div>
-
-                <h2>{{vm.tracks[0].name}}</h2>
-                <p>{{vm.tracks[0].desc}}</p>
-                <p>From {{vm.origin}} to {{vm.destination}}</p>
-
-                <table class="table table-condensed">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Start</th>
-                            <th>End</th>
-                            <th>Distance (nm)</th>
-                            <th>Trackpoints</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="track in vm.tracks">
-                            <td>{{track.id}}</td>
-                            <td>{{track.start | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-                            <td>{{track.end | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-                            <td>{{track.distance | number:2}}</td>
-                            <td>{{track.points.length}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    -->
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/angular/angular.js"></script>

@@ -2,7 +2,7 @@
 
 angular.module('logbook')
 
-    .controller('LogbookController', function logbookController(uiGmapGoogleMapApi, googleChartApiPromise,
+    .controller('LogbookController', function logbookController($mdSidenav, uiGmapGoogleMapApi, googleChartApiPromise,
                                                                  TrackService, GeocoderService) {
         'use strict';
 
@@ -66,6 +66,10 @@ angular.module('logbook')
             vm.chartReady = true;
         });
 
+        vm.toggleSidebar = function () {
+            $mdSidenav('left').toggle();
+        };
+
         vm.gpxSelected = function () {
             TrackService.loadGpx(vm.gpx).then(function (trackData) {
                 var lastTrack;
@@ -83,6 +87,7 @@ angular.module('logbook')
                 // Chart
                 plotSpeed(vm.tracks);
             });
+            $mdSidenav('left').close();
         };
 
     });
