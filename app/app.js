@@ -4,7 +4,7 @@ angular.module('logbook', ['ngMaterial', 'googlechart', 'uiGmapgoogle-maps'])
         'use strict';
         $mdIconProvider.icon('menu', './assets/svg/menu.svg');
         $mdThemingProvider.theme('default')
-            .primaryPalette('light-blue')
+            .primaryPalette('indigo')
             .accentPalette('red');
     })
 

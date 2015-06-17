@@ -71,7 +71,7 @@ angular.module('logbook')
         };
 
         vm.gpxSelected = function () {
-            TrackService.loadGpx(vm.gpx).then(function (trackData) {
+            TrackService.loadGpx(vm.gpx.file).then(function (trackData) {
                 var lastTrack;
                 vm.tracks = trackData.tracks;
 

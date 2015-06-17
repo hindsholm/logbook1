@@ -1,1 +1,7 @@
-.angular-google-map-container { height: 500px; }
+.angular-google-map-container {
+    height: 500px;
+}
+
+.md-sidenav-left div, .md-sidenav-left h1 {
+    margin-left: 20px;
+}
