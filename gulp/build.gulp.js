@@ -103,8 +103,10 @@ gulp.task('build', ['bower', 'js', 'css', 'images', 'fonts', 'partials'], functi
 
 // Copies static files to build/dist
 gulp.task('static', function () {
-    gulp.src(['app/**/*.gpx', 'app/**/*.svg', '!app/bower_components/**/*'])
-        .pipe(gulp.dest('build/dist'));
+    gulp.src('app/assets/**')
+        .pipe(gulp.dest('build/dist/assets'));
+    gulp.src('app/tracks/**')
+        .pipe(gulp.dest('build/dist/tracks'));
 });
 
 // Creates HTML5 AppCache manifest
