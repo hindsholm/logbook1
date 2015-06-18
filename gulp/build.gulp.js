@@ -30,10 +30,19 @@ gulp.task('bower', function () {
 });
 
 gulp.task('js', function () {
-    return gulp.src('app/index.html')
-        .pipe(gulpInject(gulp.src(['app/**/*.js', '!app/bower_components/**/*', '!**/*_test.js'])
-                     .pipe(angularFilesort()), {relative: true}))
+    var target = gulp.src('./app/index.html'),
+        sources = gulp.src(['./app/**/*.js', '!./app/bower_components/**/*', '!**/*_test.js']);
+    return target
+        .pipe(gulpInject(sources.pipe(angularFilesort()), {relative: true}))
         .pipe(gulp.dest('app'));
+});
+
+gulp.task('css', function () {
+    var target = gulp.src('./app/index.html'),
+        sources = gulp.src(['./app/**/*.css', '!./app/bower_components/**/*'], {read: false});
+    return target
+        .pipe(gulpInject(sources, {relative: true}))
+        .pipe(gulp.dest('./app'));
 });
 
 gulp.task('partials', function () {
@@ -65,7 +74,7 @@ gulp.task('images', function () {
 });
 
 // Builds the application in build/dist
-gulp.task('build', ['bower', 'js', 'images', 'fonts', 'partials'], function () {
+gulp.task('build', ['bower', 'js', 'css', 'images', 'fonts', 'partials'], function () {
     var assets = useref.assets();
 
     return gulp.src('app/index.html')
@@ -79,6 +88,7 @@ gulp.task('build', ['bower', 'js', 'images', 'fonts', 'partials'], function () {
         .pipe(rev())
         .pipe(gulpIf('*.js', ngAnnotate()))
         .pipe(gulpIf('*.js', uglify()))
+        .pipe(gulpIf('*.css', csso()))
         .pipe(assets.restore())
         .pipe(useref())
         .pipe(revReplace())
@@ -93,8 +103,7 @@ gulp.task('build', ['bower', 'js', 'images', 'fonts', 'partials'], function () {
 
 // Copies static files to build/dist
 gulp.task('static', function () {
-    gulp.src(['app/**/*.css', 'app/**/*.gpx', '!app/bower_components/**/*'])
-        .pipe(gulpIf('*.css', csso()))
+    gulp.src(['app/**/*.gpx', 'app/**/*.svg', '!app/bower_components/**/*'])
         .pipe(gulp.dest('build/dist'));
 });
 
