@@ -22,7 +22,6 @@ angular.module('logbook')
             vm.chart = {
                 type: 'LineChart',
                 options: {
-                    curveType: 'function',
                     hAxis: {
                         format: 'HH:mm'
                     },
@@ -38,7 +37,8 @@ angular.module('logbook')
             angular.forEach(tracks, function (track) {
                 var time = 0;
                 angular.forEach(track.points, function (point) {
-                    if (point.speed === null || point.time > time + 60000) {
+                    if (point.speed === null || point.time > time + 10000) {
+                        // at least 10 seconds between points
                         time = point.time;
                         vm.chart.data.addRow([new Date(time), point.speed]);
                     }
