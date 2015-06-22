@@ -3,19 +3,14 @@
 angular.module('logbook')
 
     .controller('LogbookController', function logbookController($mdSidenav, uiGmapGoogleMapApi, googleChartApiPromise,
-                                                                 TrackService, GeocoderService) {
+                                                                 GpxService, TrackService, GeocoderService) {
         'use strict';
 
         var vm = this;
         vm.mapReady = false;
         vm.chartReady = false;
         vm.gpx = '';
-        vm.gpxFiles = ['20150603.gpx', '20150605A.gpx', '20150605B.gpx', '20150606.gpx'].map(function (file) {
-            return {
-                file: file,
-                name: file.replace(/(\d{4})(\d{2})(\d{2})(\w?)\.gpx/, '$1-$2-$3 $4')
-            };
-        });
+        vm.gpxFiles = [];
         vm.tracks = [];
 
         function plotSpeed(tracks) {
@@ -46,26 +41,6 @@ angular.module('logbook')
             });
         }
 
-        uiGmapGoogleMapApi.then(function googleMapReady() {
-            vm.mapReady = true;
-            vm.map = {
-                center: {
-                    latitude: 56.2,
-                    longitude: 10.1
-                },
-                zoom: 7,
-                options: {
-                    mapTypeId: google.maps.MapTypeId.HYBRID
-                },
-                events: {
-                }
-            };
-        });
-
-        googleChartApiPromise.then(function googleChartReady() {
-            vm.chartReady = true;
-        });
-
         vm.toggleSidebar = function () {
             $mdSidenav('left').toggle();
         };
@@ -89,5 +64,29 @@ angular.module('logbook')
             });
             $mdSidenav('left').close();
         };
+
+        GpxService.list().then(function (files) {
+            vm.gpxFiles = files;
+        });
+
+        uiGmapGoogleMapApi.then(function googleMapReady() {
+            vm.mapReady = true;
+            vm.map = {
+                center: {
+                    latitude: 56.2,
+                    longitude: 10.1
+                },
+                zoom: 7,
+                options: {
+                    mapTypeId: google.maps.MapTypeId.HYBRID
+                },
+                events: {
+                }
+            };
+        });
+
+        googleChartApiPromise.then(function googleChartReady() {
+            vm.chartReady = true;
+        });
 
     });

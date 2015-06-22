@@ -38,7 +38,7 @@ describe('Logbook Track Service', function () {
         it('should parse gpx track', function () {
             inject(['TrackService', '$httpBackend', function (service, backend) {
                 backend
-                    .when('GET', 'tracks/20140722.gpx')
+                    .when('GET', '/tracks/20140722.gpx')
                     .respond(RESPONSE);
                 service.loadGpx('20140722.gpx').then(function (data) {
                     var track = data.tracks[0];

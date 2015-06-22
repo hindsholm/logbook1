@@ -76,8 +76,9 @@ angular.module('logbook')
         }
 
         function loadGpx(name) {
-            var deferred = $q.defer();
-            $http.get('tracks/' + name).success(function (data) {
+            var deferred = $q.defer(),
+                path = name.indexOf('/') === 0 ? name : '/tracks/' + name;
+            $http.get(path).success(function (data) {
                 var gpx = new DOMParser().parseFromString(data, 'application/xml'),
                     tracks = parseGpxTracks(gpx);
                 deferred.resolve({
