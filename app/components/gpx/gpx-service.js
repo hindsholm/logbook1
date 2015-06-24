@@ -10,16 +10,19 @@ angular.module('logbook')
             // TODO: create '/tracks' constant
             $http.get('/tracks').success(function (data) {
                 var dom = new DOMParser().parseFromString(data, 'text/html'),
-                    gpxs = [],
-                    href;
+                    gpxs = [];
                 angular.forEach(dom.links, function (link) {
-                    href = link.getAttribute('href');
-                    if (href.indexOf('.gpx', href.length - 4) !== -1) { // endsWith
+                    var href = link.getAttribute('href'),
+                        isGpx = href.match(/([^/]+)\.gpx$/);
+                    if (isGpx) {
                         gpxs.push({
                             file: href,
-                            name: href.replace(/(.*\/)?(\d{4})(\d{2})(\d{2})(\w?)\.gpx/, '$2-$3-$4 $5')
+                            name: isGpx[1].replace(/(\d{4})-?(\d{2})-?(\d{2})(.*)/, '$1-$2-$3$4') || isGpx[1]
                         });
                     }
+                });
+                gpxs.sort(function (a, b) {
+                    return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
                 });
                 deferred.resolve(gpxs);
             });

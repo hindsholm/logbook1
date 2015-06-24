@@ -25,6 +25,7 @@ gulp.task('test', ['get-sources'], function () {
 
     return gulp.src(bowerDeps.js.concat(
         'node_modules/sinon/pkg/sinon.js',
+        'test/html-domparser.js',  // required because phantomJS does not support HTML parsing
         filenames.get('js')
     ))
         .pipe(karma({
