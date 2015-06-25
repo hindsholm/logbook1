@@ -26,12 +26,13 @@
             <h1>Logbook</h1>
         </md-toolbar>
         <div>
-            <md-select placeholder="Track" ng-model="vm.gpx" ng-change="vm.gpxSelected()"
-                       ng-disabled="!vm.mapReady || !vm.chartReady">
-                <md-option ng-value="gpx" ng-repeat="gpx in vm.gpxFiles">{{gpx.name}}</md-option>
-            </md-select>
+            <h2>
+                <md-select placeholder="Track" ng-model="vm.gpx" ng-change="vm.gpxSelected()"
+                           ng-disabled="!vm.mapReady || !vm.chartReady">
+                    <md-option ng-value="gpx" ng-repeat="gpx in vm.gpxFiles">{{gpx.name}}</md-option>
+                </md-select>
+            </h2>
             <!-- Description -->
-            <h2>{{vm.gpx.name}}</h2>
             <p>{{vm.tracks[0].desc}}</p>
             <p>{{vm.origin}} - {{vm.destination}}</p>
         </div>
