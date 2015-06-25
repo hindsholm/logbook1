@@ -30,17 +30,17 @@ describe('Logbook Track Service', function () {
         });
 
         it('should be loaded', function () {
-            inject(['TrackService', function (service) {
-                expect(service).toBeDefined();
-            }]);
+            inject(function (TrackService) {
+                expect(TrackService).toBeDefined();
+            });
         });
 
         it('should parse gpx track', function () {
-            inject(['TrackService', '$httpBackend', function (service, backend) {
-                backend
-                    .when('GET', '/tracks/20140722.gpx')
+            inject(function (TrackService, $httpBackend, TRACK_PATH) {
+                $httpBackend
+                    .when('GET', TRACK_PATH + '20140722.gpx')
                     .respond(RESPONSE);
-                service.loadGpx('20140722.gpx').then(function (data) {
+                TrackService.loadGpx('20140722.gpx').then(function (data) {
                     var track = data.tracks[0];
                     expect(data.tracks.length).toBe(1);
                     expect(track.name).toBe('track_name');
@@ -54,8 +54,8 @@ describe('Logbook Track Service', function () {
                     expect(track.points[1].speed).not.toBeNull();
                     expect(track.points[3].speed).toBeNull();
                 });
-                backend.flush();
-            }]);
+                $httpBackend.flush();
+            });
         });
 
     });

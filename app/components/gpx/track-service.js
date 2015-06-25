@@ -2,7 +2,7 @@
 
 angular.module('logbook')
 
-    .factory('TrackService', function ($http, $q) {
+    .factory('TrackService', function ($http, $q, TRACK_PATH) {
         'use strict';
 
         var DELTA_MIN = 0.003; // Minimumn distance between trackpoints in nautical miles
@@ -77,7 +77,7 @@ angular.module('logbook')
 
         function loadGpx(name) {
             var deferred = $q.defer(),
-                path = name.charAt(0) === '/' ? name : '/tracks/' + name;
+                path = name.charAt(0) === '/' ? name : TRACK_PATH + name;
             $http.get(path).success(function (data) {
                 var gpx = new DOMParser().parseFromString(data, 'application/xml'),
                     tracks = parseGpxTracks(gpx);

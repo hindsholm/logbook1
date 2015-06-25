@@ -2,13 +2,14 @@
 
 angular.module('logbook')
 
-    .factory('GpxService', function ($http, $q) {
+    .constant('TRACK_PATH', '/tracks/')
+
+    .factory('GpxService', function ($http, $q, TRACK_PATH) {
         'use strict';
 
         function list() {
             var deferred = $q.defer();
-            // TODO: create '/tracks' constant
-            $http.get('/tracks').success(function (data) {
+            $http.get(TRACK_PATH).success(function (data) {
                 var dom = new DOMParser().parseFromString(data, 'text/html'),
                     gpxs = [];
                 angular.forEach(dom.links, function (link) {

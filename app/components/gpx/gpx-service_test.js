@@ -26,17 +26,17 @@ describe('Logbook GPX Service', function () {
         });
 
         it('should be loaded', function () {
-            inject(['GpxService', function (service) {
-                expect(service).toBeDefined();
-            }]);
+            inject(function (GpxService) {
+                expect(GpxService).toBeDefined();
+            });
         });
 
         it('should list gpx files', function () {
-            inject(['GpxService', '$httpBackend', function (service, backend) {
-                backend
-                    .when('GET', '/tracks')
+            inject(function (GpxService, $httpBackend, TRACK_PATH) {
+                $httpBackend
+                    .when('GET', TRACK_PATH)
                     .respond(RESPONSE);
-                service.list().then(function (data) {
+                GpxService.list().then(function (data) {
                     expect(data.length).toBe(5);
                     expect(data[0]).toEqual({file: '20150714.gpx', name: '2015-07-14'});
                     expect(data[1]).toEqual({file: '20150715 A.gpx', name: '2015-07-15 A'});
@@ -44,8 +44,8 @@ describe('Logbook GPX Service', function () {
                     expect(data[3]).toEqual({file: '2015-07-16.gpx', name: '2015-07-16'});
                     expect(data[4]).toEqual({file: 'mytrack.gpx', name: 'mytrack'});
                 });
-                backend.flush();
-            }]);
+                $httpBackend.flush();
+            });
         });
 
     });
