@@ -9,7 +9,6 @@ describe('Logbook Track Service', function () {
         '<trk>' +
         '<name><![CDATA[track_name]]></name>' +
         '<desc><![CDATA[track_desc]]></desc>' +
-        '<type><![CDATA[track_type]]></type>' +
         '<trkseg>' +
         '<trkpt lat="55.053037" lon="10.162966"><time>2014-07-22T07:02:05.412Z</time></trkpt>' +
         '<trkpt lat="55.043121" lon="10.163604"><time>2014-07-22T07:02:32.900Z</time></trkpt>' +
@@ -45,7 +44,6 @@ describe('Logbook Track Service', function () {
                     expect(data.tracks.length).toBe(1);
                     expect(track.name).toBe('track_name');
                     expect(track.desc).toBe('track_desc');
-                    expect(track.type).toBe('track_type');
                     expect(track.start).toBe(Date.parse('2014-07-22T07:02:05.412Z'));
                     expect(track.end).toBe(Date.parse('2014-07-22T07:04:36.876Z'));
                     expect(track.distance).toBeCloseTo(2.39);

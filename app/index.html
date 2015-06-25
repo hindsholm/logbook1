@@ -31,18 +31,18 @@
                 <md-option ng-value="gpx" ng-repeat="gpx in vm.gpxFiles">{{gpx.name}}</md-option>
             </md-select>
             <!-- Description -->
-            <h3 ng-show="vm.tracks.length > 0">{{vm.origin}} - {{vm.destination}}</h3>
-            <dl ng-show="vm.tracks.length > 0">
+            <h3 ng-show="vm.trip.tracks.length > 0">{{vm.origin}} - {{vm.destination}}</h3>
+            <dl ng-show="vm.trip.tracks.length > 0">
                 <dt>Description</dt>
-                <dd>{{vm.tracks[0].desc}}</dd>
+                <dd>{{vm.trip.tracks[0].desc}}</dd>
                 <dt>Start</dt>
-                <dd>{{vm.tracks[0].start | date: 'yyyy-MM-dd, H:mm'}}</dd>
+                <dd>{{vm.trip.tracks[0].start | date: 'yyyy-MM-dd, H:mm'}}</dd>
                 <dt>End</dt>
-                <dd>{{vm.tracks[0].end | date: 'yyyy-MM-dd, H:mm'}}</dd>
+                <dd>{{vm.trip.tracks[0].end | date: 'yyyy-MM-dd, H:mm'}}</dd>
                 <dt>Distance</dt>
-                <dd>{{vm.tracks[0].distance | number: 1}} M</dd>
+                <dd>{{vm.trip.distance | number: 1}} M</dd>
                 <dt>Track Points</dt>
-                <dd>{{vm.tracks[0].points.length}}</dd>
+                <dd>{{vm.trip.pointCount}}</dd>
             </dl>
         </div>
     </md-sidenav>
@@ -62,7 +62,7 @@
             <md-card>
                 <div>
                     <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" draggable="true" options="vm.map.options" events="vm.map.events">
-                        <ui-gmap-polyline ng-repeat="track in vm.tracks" path="track.points" stroke="{color: '#ff0000', weight: 2}" visible="true" static="true" fit="true"></ui-gmap-polyline>
+                        <ui-gmap-polyline ng-repeat="track in vm.trip.tracks" path="track.points" stroke="{color: '#ff0000', weight: 2}" visible="true" static="true" fit="true"></ui-gmap-polyline>
                     </ui-gmap-google-map>
                 </div>
             </md-card>

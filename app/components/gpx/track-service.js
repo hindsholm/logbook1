@@ -57,7 +57,6 @@ angular.module('logbook')
             return {
                 name: textContent(trk, 'name', ''),
                 desc: textContent(trk, 'desc', ''),
-                type: textContent(trk, 'type', ''),
                 start: points[0].time,
                 end: points[points.length - 1].time,
                 distance: points[points.length - 1].distance,
@@ -80,9 +79,17 @@ angular.module('logbook')
                 path = name.charAt(0) === '/' ? name : TRACK_PATH + name;
             $http.get(path).success(function (data) {
                 var gpx = new DOMParser().parseFromString(data, 'application/xml'),
-                    tracks = parseGpxTracks(gpx);
+                    tracks = parseGpxTracks(gpx),
+                    distance = tracks.reduce(function (sum, track) {
+                        return sum + track.distance;
+                    }, 0),
+                    pointCount = tracks.reduce(function (sum, track) {
+                        return sum + track.points.length;
+                    }, 0);
                 deferred.resolve({
-                    tracks: tracks
+                    tracks: tracks,
+                    distance: distance,
+                    pointCount: pointCount
                 });
             });
             return deferred.promise;

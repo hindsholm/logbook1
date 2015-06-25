@@ -11,7 +11,9 @@ angular.module('logbook')
         vm.chartReady = false;
         vm.gpx = '';
         vm.gpxFiles = [];
-        vm.tracks = [];
+        vm.trip = {
+            tracks: []
+        };
 
         function plotSpeed(tracks) {
             vm.chart = {
@@ -48,11 +50,11 @@ angular.module('logbook')
         vm.gpxSelected = function () {
             TrackService.loadGpx(vm.gpx.file).then(function (trackData) {
                 var lastTrack;
-                vm.tracks = trackData.tracks;
+                vm.trip = trackData;
 
                 // Fom - To
-                lastTrack = vm.tracks[vm.tracks.length - 1];
-                GeocoderService.reverse(vm.tracks[0].points[0]).then(function (place) {
+                lastTrack = vm.trip.tracks[vm.trip.tracks.length - 1];
+                GeocoderService.reverse(vm.trip.tracks[0].points[0]).then(function (place) {
                     vm.origin = place;
                 });
                 GeocoderService.reverse(lastTrack.points[lastTrack.points.length - 1]).then(function (place) {
@@ -60,7 +62,7 @@ angular.module('logbook')
                 });
 
                 // Chart
-                plotSpeed(vm.tracks);
+                plotSpeed(vm.trip.tracks);
             });
             $mdSidenav('left').close();
         };
