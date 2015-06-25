@@ -21,26 +21,35 @@
 
 <body layout="row" ng-controller="LogbookController as vm">
 
-    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
-        <md-toolbar class="md-whiteframe-z1">
+    <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
+        <md-toolbar>
             <h1>Logbook</h1>
         </md-toolbar>
-        <div>
-            <h2>
-                <md-select placeholder="Track" ng-model="vm.gpx" ng-change="vm.gpxSelected()"
-                           ng-disabled="!vm.mapReady || !vm.chartReady">
-                    <md-option ng-value="gpx" ng-repeat="gpx in vm.gpxFiles">{{gpx.name}}</md-option>
-                </md-select>
-            </h2>
+        <div class="md-whiteframe-z2 info" layout="column" layout-align="start start">
+            <md-select placeholder="Track" ng-model="vm.gpx" ng-change="vm.gpxSelected()"
+                       ng-disabled="!vm.mapReady || !vm.chartReady">
+                <md-option ng-value="gpx" ng-repeat="gpx in vm.gpxFiles">{{gpx.name}}</md-option>
+            </md-select>
             <!-- Description -->
-            <p>{{vm.tracks[0].desc}}</p>
-            <p>{{vm.origin}} - {{vm.destination}}</p>
+            <h3 ng-show="vm.tracks.length > 0">{{vm.origin}} - {{vm.destination}}</h3>
+            <dl ng-show="vm.tracks.length > 0">
+                <dt>Description</dt>
+                <dd>{{vm.tracks[0].desc}}</dd>
+                <dt>Start</dt>
+                <dd>{{vm.tracks[0].start | date: 'yyyy-MM-dd, H:mm'}}</dd>
+                <dt>End</dt>
+                <dd>{{vm.tracks[0].end | date: 'yyyy-MM-dd, H:mm'}}</dd>
+                <dt>Distance</dt>
+                <dd>{{vm.tracks[0].distance | number: 1}} M</dd>
+                <dt>Track Points</dt>
+                <dd>{{vm.tracks[0].points.length}}</dd>
+            </dl>
         </div>
     </md-sidenav>
 
-    <div flex layout="column" class="md-whiteframe-z2">
+    <div flex layout="column">
 
-        <md-toolbar layout="row" class="md-whiteframe-z1" hide-gt-sm>
+        <md-toolbar layout="row" hide-gt-sm>
             <md-button class="menu" ng-click="vm.toggleSidebar()" aria-label="Show Sidebar">
                 <md-icon md-svg-icon="menu"></md-icon>
             </md-button>
