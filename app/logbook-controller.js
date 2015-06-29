@@ -14,6 +14,7 @@ angular.module('logbook')
         vm.trip = {
             tracks: []
         };
+        vm.loading = false;
 
         function plotSpeed(tracks) {
             vm.chart = {
@@ -48,6 +49,7 @@ angular.module('logbook')
         };
 
         vm.gpxSelected = function () {
+            vm.loading = true;
             TrackService.loadGpx(vm.gpx.file).then(function (trackData) {
                 var lastTrack;
                 vm.trip = trackData;
@@ -63,6 +65,8 @@ angular.module('logbook')
 
                 // Chart
                 plotSpeed(vm.trip.tracks);
+
+                vm.loading = false;
             });
             $mdSidenav('left').close();
         };

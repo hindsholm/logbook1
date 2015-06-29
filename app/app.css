@@ -1,3 +1,12 @@
+/* Main content*/
+
+md-progress-circular {
+    position: absolute;
+    left: 50%;
+    top: 200px;
+    z-index: 100;
+}
+
 .angular-google-map-container {
     height: 500px;
 }
