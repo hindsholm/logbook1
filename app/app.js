@@ -12,7 +12,7 @@ angular.module('logbook', ['ngMaterial', 'googlechart', 'uiGmapgoogle-maps'])
         'use strict';
         uiGmapGoogleMapApiProvider.configure({
             china: false,
-            v: '3.17',
+            v: '3',
             libraries: '',
             sensor: false
         });
