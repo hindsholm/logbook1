@@ -1,18 +1,15 @@
 {
   "libs": [
     "browser",
-    "ecma5",
-    "ecma6",
-    "jquery"
+    "ecma5"
   ],
   "loadEagerly": [
-    "js/**/*.js"
+    "app/**/*.js"
   ],
   "plugins": {
     "complete_strings": {},
-    "lint": {},
     "doc_comment": {
-     "fullDocs": true
+      "fullDocs": true
     },
     "angular": {}
   }

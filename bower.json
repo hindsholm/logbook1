@@ -24,7 +24,8 @@
     "angular": "~1.4",
     "angular-google-chart": "~0.0.11",
     "geodesy": "https://github.com/chrisveness/geodesy.git",
-    "angular-material": "~0.9.8"
+    "angular-material": "~0.10.1",
+    "jasmine-jquery": "~2.1.0"
   },
   "overrides": {
     "angular-bootstrap": {
