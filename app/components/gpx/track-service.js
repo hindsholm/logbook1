@@ -2,10 +2,11 @@
 
 angular.module('logbook')
 
-    .factory('TrackService', function ($http, $q, TRACK_PATH) {
+    .factory('TrackService', function ($http, $q, TRACK_PATH, $log) {
         'use strict';
 
-        var DELTA_MIN = 0.003; // Minimumn distance between trackpoints in nautical miles
+        var DELTA_MIN = 0.003,  // Minimumn distance between trackpoints in nautical miles
+            SPEED_MAX = 12;     // Maximum speed in knots
 
         function textContent(parent, tag, def) {
             var elms = parent.getElementsByTagName(tag);
@@ -29,15 +30,19 @@ angular.module('logbook')
                 delta = prev ? prev.latlon.distanceTo(cur.latlon) / 1852 : 0;
                 if (!prev || delta > DELTA_MIN) {
                     speed = prev && cur.time > 0 ? 3600000 * delta / (cur.time - prev.time) : null;
-                    distance += delta;
-                    segment.push({
-                        time: cur.time,
-                        latitude: cur.latlon.lat,
-                        longitude: cur.latlon.lon,
-                        distance: distance,
-                        speed: speed
-                    });
-                    prev = cur;
+                    if (speed < SPEED_MAX) {
+                        distance += delta;
+                        segment.push({
+                            time: cur.time,
+                            latitude: cur.latlon.lat,
+                            longitude: cur.latlon.lon,
+                            distance: distance,
+                            speed: speed
+                        });
+                        prev = cur;
+                    } else {
+                        $log.warn('Speed too high: ' + Math.round(speed) + ' kn at ' + new Date(cur.time));
+                    }
                 }
             });
             return segment;
