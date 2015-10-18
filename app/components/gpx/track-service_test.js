@@ -1,4 +1,4 @@
-/*global beforeEach, describe, expect, inject, it, module */
+/* global beforeEach, describe, expect, inject, it, module */
 describe('Logbook Track Service', function () {
 
     'use strict';

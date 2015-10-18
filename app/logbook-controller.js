@@ -1,4 +1,4 @@
-/*global google: false */
+/* global google: false */
 
 angular.module('logbook')
 

@@ -1,4 +1,4 @@
-/*global DOMParser: false, LatLon: false */
+/* global DOMParser: false, LatLon: false */
 
 angular.module('logbook')
 

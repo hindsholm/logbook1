@@ -1,6 +1,0 @@
-env:
-  node: true
-
-rules:
-  no-console: 0
-  strict: [2, "global"] # controls location of Use Strict Directives

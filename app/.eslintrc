@@ -1,0 +1,38 @@
+env:
+  node: false
+
+rules:
+  no-console: 2 # disallow use of console - use logging library instead
+  strict: [2, "function"] # controls location of Use Strict Directives
+  max-params: [2, 11] # limits the number of parameters that can be used in the function declaration.
+
+globals:
+  angular: false
+  beforeEach: false
+  describe: false
+  expect: false
+  inject: false
+  it: false
+  module: false
+  sinon: false
+
+plugins:
+  - angular
+
+# Angular
+angular/ng_controller_as: 2
+angular/ng_controller_as_route: 2
+angular/ng_controller_as_vm: [2, 'vm']
+angular/ng_controller_name: [2, '/[A-Z].*Controller$/']
+angular/ng_di: [2, 'function']
+angular/ng_directive_name: [2, '/[A-Z].*Directive$/']
+angular/ng_document_service: 2
+angular/ng_interval_service: 2
+angular/ng_json_functions: 2
+angular/ng_no_digest: 2
+angular/ng_no_private_call: 2
+angular/ng_on_watch: 2
+angular/ng_service_name: [2, '/[A-Z].*Service$/']
+angular/ng_timeout_service: 2
+angular/ng_window_service: 2
+
