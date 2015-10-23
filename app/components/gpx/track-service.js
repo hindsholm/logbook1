@@ -5,8 +5,9 @@ angular.module('logbook')
     .factory('TrackService', function ($http, $q, TRACK_PATH, $log) {
         'use strict';
 
-        var DELTA_MIN = 0.003,  // Minimumn distance between trackpoints in nautical miles
-            SPEED_MAX = 12;     // Maximum speed in knots
+        var DELTA_MIN = 0.003,       // Minimumn distance between trackpoints in nautical miles
+            SPEED_MAX = 12,          // Maximum speed in knots
+            SPEED_INCREASE_MAX = 5;  // Maximum speed increase in knots
 
         function textContent(parent, tag, def) {
             var elms = parent.getElementsByTagName(tag);
@@ -22,27 +23,45 @@ angular.module('logbook')
         }
 
         function parseTrackSegment(trkseg, distance) {
-            var cur, prev, delta, speed,
-                trkpts = trkseg.getElementsByTagName('trkpt'),
-                segment = [];
+            var trkpts = trkseg.getElementsByTagName('trkpt'),
+                segment = [],
+                previous;
             angular.forEach(trkpts, function (trkpt) {
-                cur = parseTrackPt(trkpt);
-                delta = prev ? prev.latlon.distanceTo(cur.latlon) / 1852 : 0;
-                if (!prev || delta > DELTA_MIN) {
-                    speed = prev && cur.time > 0 ? 3600000 * delta / (cur.time - prev.time) : null;
-                    if (speed < SPEED_MAX) {
-                        distance += delta;
-                        segment.push({
-                            time: cur.time,
-                            latitude: cur.latlon.lat,
-                            longitude: cur.latlon.lon,
-                            distance: distance,
-                            speed: speed
-                        });
-                        prev = cur;
-                    } else {
-                        $log.warn('Speed too high: ' + Math.round(speed) + ' kn at ' + new Date(cur.time));
+                var current = parseTrackPt(trkpt),
+                    usePoint = false,
+                    delta;
+                if (!previous) {
+                    current.speed = null;
+                    usePoint = true;
+                } else {
+                    delta = previous.latlon.distanceTo(current.latlon) / 1852;
+                    if (delta > DELTA_MIN) {
+                        current.speed = current.time > 0 ? 3600000 * delta / (current.time - previous.time) : null;
+                        if (current.speed !== null) {
+                            if (current.speed > SPEED_MAX) {
+                                $log.warn('Speed too high: ' + Math.round(current.speed) + ' kn at ' + new Date(current.time));
+                            } else if (previous.speed !== null && current.speed > previous.speed + SPEED_INCREASE_MAX) {
+                                $log.warn('Speed increase too high: ' + Math.round(current.speed - previous.speed) + ' at ' +
+                                    new Date(current.time));
+                            } else {
+                                distance += delta;
+                                usePoint = true;
+                            }
+                        } else {
+                            distance += delta;
+                            usePoint = true;
+                        }
                     }
+                }
+                if (usePoint) {
+                    segment.push({
+                        time: current.time,
+                        latitude: current.latlon.lat,
+                        longitude: current.latlon.lon,
+                        distance: distance,
+                        speed: current.speed
+                    });
+                    previous = current;
                 }
             });
             return segment;
