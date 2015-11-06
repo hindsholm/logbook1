@@ -18,14 +18,13 @@
     "bower_components"
   ],
   "dependencies": {
-    "angular-google-maps": "~2.1",
+    "angular-google-maps": "~2.2",
     "angular-resource": "~1.4",
     "angular-sanitize": "~1.4",
     "angular": "~1.4",
     "angular-google-chart": "~0.0.11",
     "geodesy": "https://github.com/chrisveness/geodesy.git",
-    "angular-material": "~0.10.1",
-    "jasmine-jquery": "~2.1.0"
+    "angular-material": "~0.10.1"
   },
   "overrides": {
     "angular-bootstrap": {
