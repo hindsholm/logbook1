@@ -53,6 +53,7 @@
     "lodash": "^3.9.3",
     "main-bower-files": "^2.9.0",
     "minimist": "^1.1.0",
+    "phantomjs": "^1.9",
     "protractor": "^2.5.1",
     "require-dir": "^0.3.0",
     "sinon": "~1.17.1",
