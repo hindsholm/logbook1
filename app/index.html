@@ -67,8 +67,10 @@
             <!-- Map -->
             <md-card>
                 <div>
-                    <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" draggable="true" options="vm.map.options" events="vm.map.events">
-                        <ui-gmap-polyline ng-repeat="track in vm.trip.tracks" path="track.points" stroke="{color: '#ff0000', weight: 2}" visible="true" static="true" fit="true"></ui-gmap-polyline>
+                    <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" draggable="true" options="vm.map.options"
+                        events="vm.map.events">
+                        <ui-gmap-polyline ng-repeat="track in vm.trip.tracks" path="track.points" stroke="{color: '#ff0000', weight: 2}"
+                            visible="true" static="true" fit="true"></ui-gmap-polyline>
                     </ui-gmap-google-map>
                 </div>
             </md-card>
