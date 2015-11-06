@@ -99,24 +99,24 @@ angular.module('logbook')
         }
 
         function loadGpx(name) {
-            var deferred = $q.defer(),
-                path = name.charAt(0) === '/' ? name : TRACK_PATH + name;
-            $http.get(path).success(function (data) {
-                var gpx = new DOMParser().parseFromString(data, 'application/xml'),
-                    tracks = parseGpxTracks(gpx),
-                    distance = tracks.reduce(function (sum, track) {
-                        return sum + track.distance;
-                    }, 0),
-                    pointCount = tracks.reduce(function (sum, track) {
-                        return sum + track.points.length;
-                    }, 0);
-                deferred.resolve({
-                    tracks: tracks,
-                    distance: distance,
-                    pointCount: pointCount
+            return $q(function (resolve) {
+                var path = name.charAt(0) === '/' ? name : TRACK_PATH + name;
+                $http.get(path).success(function (data) {
+                    var gpx = new DOMParser().parseFromString(data, 'application/xml'),
+                        tracks = parseGpxTracks(gpx),
+                        distance = tracks.reduce(function (sum, track) {
+                            return sum + track.distance;
+                        }, 0),
+                        pointCount = tracks.reduce(function (sum, track) {
+                            return sum + track.points.length;
+                        }, 0);
+                    resolve({
+                        tracks: tracks,
+                        distance: distance,
+                        pointCount: pointCount
+                    });
                 });
             });
-            return deferred.promise;
         }
 
         return {
